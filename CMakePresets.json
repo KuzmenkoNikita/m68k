@@ -1,0 +1,54 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "default",
+            "displayName": "Default configuration",
+            "description": "Default config using Ninja and clang",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_STANDARD" : "23" 
+            },
+            "environment": {
+                "CC": "clang",
+                "CXX": "clang++",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release configuration",
+            "description": "Release config using Ninja and clang",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+              "CMAKE_BUILD_TYPE": "Release",
+              "CMAKE_CXX_COMPILER": "clang++",
+              "CMAKE_CXX_STANDARD" : "23" 
+            },
+            "environment": {
+                "CC": "clang",
+                "CXX": "clang++",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        }
+    ],
+    "buildPresets": [
+    {
+      "name": "default-build",
+      "configurePreset": "default",
+      "displayName": "Build Default Config",
+      "description": "Build the default configuration"
+    },
+    {
+      "name": "release-build",
+      "configurePreset": "release",
+      "displayName": "Build Release Config",
+      "description": "Build the release configuration"
+    }
+  ]
+}
