@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 3.17.0)
 project(m68k VERSION 0.1.0 LANGUAGES C CXX)
-
-add_executable(m68k main.cpp)
-
-include(CTest)
-enable_testing()
-
 set(CMAKE_CXX_STANDARD 20)
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+
+add_executable(m68k src/main.cpp)
+
+add_subdirectory(src/BUS/busdevice)
+add_subdirectory(src/devices/ROM)
+add_subdirectory(src/devices/CPU)
+
+
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
+    configure_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json"
+        COPYONLY
+    )
+endif()

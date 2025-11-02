@@ -1,54 +1,52 @@
 {
-    "version": 8,
+    "version": 3,
     "configurePresets": [
         {
-            "name": "default",
-            "displayName": "Default configuration",
-            "description": "Default config using Ninja and clang",
+            "name": "base-config",
+            "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_STANDARD" : "23" 
-            },
-            "environment": {
-                "CC": "clang",
-                "CXX": "clang++",
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
+
         {
-            "name": "release",
-            "displayName": "Release configuration",
-            "description": "Release config using Ninja and clang",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "name": "debug-config",
+            "hidden": true,
+            "inherits": ["base-config"],
             "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Release",
-              "CMAKE_CXX_COMPILER": "clang++",
-              "CMAKE_CXX_STANDARD" : "23" 
-            },
-            "environment": {
-                "CC": "clang",
-                "CXX": "clang++",
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++"
-            }
+                "CMAKE_BUILD_TYPE": "Debug"
+            }           
+        },
+        {
+            "name": "release-config",
+            "hidden": true,
+            "inherits": ["base-config"],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }           
+        },
+
+        {
+            "name": "clang-config",
+            "hidden": true,
+            "inherits": ["base-config"],
+            "cacheVariables": {
+              "CMAKE_C_COMPILER": "clang",
+              "CMAKE_CXX_COMPILER": "clang++"
+            }           
+        },
+
+        {
+            "name": "Clang-debug-config",
+            "hidden": false,
+            "inherits": ["debug-config", "clang-config"]
+        },
+
+        {
+            "name": "Clang-release-config",
+            "hidden": false,
+            "inherits": ["release-config", "clang-config"]
         }
-    ],
-    "buildPresets": [
-    {
-      "name": "default-build",
-      "configurePreset": "default",
-      "displayName": "Build Default Config",
-      "description": "Build the default configuration"
-    },
-    {
-      "name": "release-build",
-      "configurePreset": "release",
-      "displayName": "Build Release Config",
-      "description": "Build the release configuration"
-    }
-  ]
+    ]
 }

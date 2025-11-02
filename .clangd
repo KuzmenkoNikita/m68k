@@ -1,0 +1,6 @@
+CompileFlags:
+  Add: [-Xclang, -std=c++23]
+Diagnostics:
+  ClangTidy:
+    Add: ['*']
+    Remove: ['fuchsia-*', 'llvmlibc-*', 'google-objc-*', 'altera-*', '*-use-trailing-return-type']
