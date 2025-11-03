@@ -1,4 +1,5 @@
 #include "bus/bus.h"
+#include <algorithm>
 
 namespace DataExchange {
 
@@ -37,7 +38,7 @@ bool Bus::mapDevice(DeviceParams deviceParams)
         return false;
     }
 
-    if (!canAddDevice(deviceParams.readRange, deviceParams.writeRange)) {
+    if (!canAddDevice(deviceParams)) {
         return false;
     } 
           
@@ -54,7 +55,7 @@ std::optional<Bus::DeviceMatcher> Bus::findDevice(OperationType operationType, u
             continue;
         }
 
-        if (isAddressInRange(address, range.value()) && mapping.device) {
+        if (isAddressInRange(address, getRealAddressRange(range.value(), mapping.baseAddress)) && mapping.device) {
 
             return DeviceMatcher{
                 .device = std::reference_wrapper<IBusDevice>(*mapping.device),
@@ -66,36 +67,59 @@ std::optional<Bus::DeviceMatcher> Bus::findDevice(OperationType operationType, u
     return std::nullopt;
 }
 
-bool Bus::canAddDevice(std::optional<AddressRange> readRange, std::optional<AddressRange> writeRange) const
+bool Bus::canAddDevice(const DeviceParams& deviceParams) const
 {
-    if(!readRange && !writeRange) {
+    if (!deviceParams.device) {
         return false;
     }
 
-    auto overlaps = [](const AddressRange& a, const AddressRange& b) {
-        return a.start <= b.end && b.start <= a.end;
-    };
-
-    for (const auto& existing : devices_) {
-
-        if (readRange && existing.readRange && overlaps(*readRange, *existing.readRange)){
-            return false;
-        }
-
-        if (readRange && existing.writeRange && overlaps(*readRange, *existing.writeRange)) {
-            return false;
-        }
-
-        if (writeRange && existing.readRange && overlaps(*writeRange, *existing.readRange)) {
-            return false;
-        }
-            
-        if (writeRange && existing.writeRange && overlaps(*writeRange, *existing.writeRange)) {
-            return false;
-        }
+    if (!deviceParams.readRange && !deviceParams.writeRange) {
+        return false;
     }
 
-    return true;
+    auto overlaps = [](const AddressRange& lhs, const AddressRange& rhs) {
+        return lhs.start <= rhs.end && rhs.start <= lhs.end;
+    };
+
+    auto noOverlapWithExisting = [&](const DeviceParams& existing) {
+        if (!existing.readRange && !existing.writeRange) {
+            return true;
+        }
+
+        if (deviceParams.readRange && existing.readRange && overlaps(getRealAddressRange(*existing.readRange, existing.baseAddress), 
+                                                                    getRealAddressRange(*deviceParams.readRange, deviceParams.baseAddress))) {
+            return false;
+        }
+
+
+        if (deviceParams.readRange && existing.writeRange && overlaps(getRealAddressRange(*existing.writeRange, existing.baseAddress),
+                                                                     getRealAddressRange(*deviceParams.readRange, deviceParams.baseAddress))) {
+            return false;
+        }
+
+        if (deviceParams.writeRange && existing.readRange && overlaps(getRealAddressRange(*existing.readRange, existing.baseAddress),
+                                                                     getRealAddressRange(*deviceParams.writeRange, deviceParams.baseAddress))) {
+            return false;
+        }
+
+
+        if (deviceParams.writeRange && existing.writeRange && overlaps(getRealAddressRange(*existing.writeRange, existing.baseAddress),
+                                                                      getRealAddressRange(*deviceParams.writeRange, deviceParams.baseAddress))) {
+            return false;
+        }
+
+        return true;
+    };
+
+    return std::ranges::all_of(devices_, noOverlapWithExisting);
+}
+
+AddressRange Bus::getRealAddressRange(const AddressRange& range, uint32_t baseAddress) const //NOLINT
+{
+    return AddressRange{
+        .start = baseAddress + range.start,
+        .end = baseAddress + range.end
+    };
 }
 
 bool Bus::isAddressInRange(uint32_t address, const AddressRange& range) const //NOLINT

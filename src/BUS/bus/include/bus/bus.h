@@ -48,7 +48,8 @@ private:
 
     [[nodiscard]] std::optional<DeviceMatcher> findDevice(OperationType operationType, uint32_t address) const;
     [[nodiscard]] bool isAddressInRange(uint32_t address, const AddressRange& range) const;
-    [[nodiscard]] bool canAddDevice(std::optional<AddressRange> readRange, std::optional<AddressRange> writeRange) const;
+    [[nodiscard]] bool canAddDevice(const DeviceParams& deviceParams) const;
+    [[nodiscard]] AddressRange getRealAddressRange(const AddressRange& range, uint32_t baseAddress) const;
 
 private:
 
