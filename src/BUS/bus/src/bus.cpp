@@ -69,16 +69,22 @@ std::optional<Bus::DeviceMatcher> Bus::findDevice(OperationType operationType, u
         }
     }
 
+    spdlog::warn("No device found for address 0x{:08X} during {} operation.",
+                  address,
+                  (operationType == OperationType::READ) ? "read" : "write");
+
     return std::nullopt;
 }
 
 bool Bus::canAddDevice(const DeviceParams& deviceParams) const
 {
     if (!deviceParams.device) {
+        spdlog::warn("Cannot add device: device pointer is null.");
         return false;
     }
 
     if (!deviceParams.readRange && !deviceParams.writeRange) {
+        spdlog::warn("Cannot add device: both read and write ranges are unspecified.");
         return false;
     }
 
@@ -88,28 +94,33 @@ bool Bus::canAddDevice(const DeviceParams& deviceParams) const
 
     auto noOverlapWithExisting = [&](const DeviceParams& existing) {
         if (!existing.readRange && !existing.writeRange) {
+            spdlog::warn("Existing device has no read or write ranges; skipping overlap check.");
             return true;
         }
 
         if (deviceParams.readRange && existing.readRange && overlaps(getRealAddressRange(*existing.readRange, existing.baseAddress), 
                                                                     getRealAddressRange(*deviceParams.readRange, deviceParams.baseAddress))) {
+            spdlog::warn("Read range overlap detected.");                                                            
             return false;
         }
 
 
         if (deviceParams.readRange && existing.writeRange && overlaps(getRealAddressRange(*existing.writeRange, existing.baseAddress),
-                                                                     getRealAddressRange(*deviceParams.readRange, deviceParams.baseAddress))) {
+                                                                         getRealAddressRange(*deviceParams.readRange, deviceParams.baseAddress))) {
+            spdlog::warn("Read-Write range overlap detected.");
             return false;
         }
 
         if (deviceParams.writeRange && existing.readRange && overlaps(getRealAddressRange(*existing.readRange, existing.baseAddress),
                                                                      getRealAddressRange(*deviceParams.writeRange, deviceParams.baseAddress))) {
+            spdlog::warn("Write-Read range overlap detected.");
             return false;
         }
 
 
         if (deviceParams.writeRange && existing.writeRange && overlaps(getRealAddressRange(*existing.writeRange, existing.baseAddress),
                                                                       getRealAddressRange(*deviceParams.writeRange, deviceParams.baseAddress))) {
+            spdlog::warn("Write range overlap detected.");
             return false;
         }
 
