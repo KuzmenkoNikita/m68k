@@ -17,5 +17,5 @@ target_include_directories(M68kBusTests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/mock
 )
 
-# Регистрируем тест для ctest
+
 add_test(NAME bus_tests COMMAND M68kBusTests)
