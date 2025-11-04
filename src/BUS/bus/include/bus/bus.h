@@ -14,7 +14,7 @@ struct AddressRange {
 };
 
 struct DeviceParams {
-    std::unique_ptr<IBusDevice> device;
+    std::shared_ptr<IBusDevice> device;
     uint32_t baseAddress = 0;
     std::optional<AddressRange> readRange;
     std::optional<AddressRange> writeRange;

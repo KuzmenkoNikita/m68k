@@ -9,6 +9,12 @@ target_link_libraries(M68kBusTests
     M68kBus
     GTest::gtest
     GTest::gtest_main
+    GTest::gmock
+)
+
+target_include_directories(M68kBusTests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    ${CMAKE_CURRENT_SOURCE_DIR}/mock
 )
 
 # Регистрируем тест для ctest

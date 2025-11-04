@@ -8,6 +8,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/in
 
 target_link_libraries(${PROJECT_NAME} PUBLIC BUSMemoryInterface BUSDeviceInterface)
 
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog $<$<BOOL:${MINGW}>:ws2_32>)
+
 if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()

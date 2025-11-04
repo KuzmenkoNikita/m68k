@@ -1,4 +1,5 @@
 #include "bus/bus.h"
+#include "spdlog/spdlog.h"
 #include <algorithm>
 
 namespace DataExchange {
@@ -7,6 +8,7 @@ std::expected<MemoryAccessResult, MemoryAccessError> Bus::read16(uint32_t addres
 {
     auto deviceOpt = findDevice(OperationType::READ, address);
     if (!deviceOpt.has_value()) {
+        spdlog::error("Read attempt from unmapped address: 0x{:08X}", address);
         return std::unexpected(MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS);
     }
 
@@ -23,6 +25,7 @@ std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t v
 {
     auto deviceOpt = findDevice(OperationType::WRITE, address);
     if (!deviceOpt.has_value()) {
+        spdlog::error("Write attempt to unmapped address: 0x{:08X}", address);
         return std::unexpected(MemoryAccessError::WRITE_TO_UNMAPPED_ADDRESS);
     }
 
@@ -35,10 +38,12 @@ std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t v
 bool Bus::mapDevice(DeviceParams deviceParams)
 {
     if (!deviceParams.device) {
+        spdlog::error("Empty device pointer provided for mapping.");
         return false;
     }
 
     if (!canAddDevice(deviceParams)) {
+        spdlog::error("Device mapping failed due to overlapping address ranges.");
         return false;
     } 
           

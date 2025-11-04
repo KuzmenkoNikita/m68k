@@ -33,7 +33,7 @@ uint16_t FileROM::read16(uint32_t address)
 
 void FileROM::write16(uint32_t /*address*/, uint16_t /*value*/)
 {
-    // ROM is read-only; ignore writes or throw an exception
+    
 };
 
 

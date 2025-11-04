@@ -12,9 +12,23 @@ add_subdirectory(src/BUS/bus)
 add_subdirectory(src/devices/ROM)
 add_subdirectory(src/devices/CPU)
 
+#-----------------------------------------#
+################# Logging #################
+#-----------------------------------------#
+include(FetchContent)
+FetchContent_Declare(
+    spdlog
+    URL https://github.com/gabime/spdlog/archive/refs/tags/v1.16.0.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(spdlog)
+
+#-----------------------------------------#
+################# Testing #################
+#-----------------------------------------#
 if(BUILD_TESTS)
     enable_testing() 
-    include(FetchContent)
     FetchContent_Declare(
         googletest
         URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
@@ -24,6 +38,7 @@ if(BUILD_TESTS)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(googletest)
 endif()
+
 
 if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
     configure_file(
