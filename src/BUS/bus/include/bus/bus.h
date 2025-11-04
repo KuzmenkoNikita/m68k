@@ -24,10 +24,10 @@ class Bus : public MemoryInterface {
 
 public:
     Bus() = default;
-    Bus(const Bus &) = delete;
-    Bus(Bus &&) = delete;
-    Bus &operator=(const Bus &) = delete;
-    Bus &operator=(Bus &&) = delete;
+    Bus(const Bus &) = default;
+    Bus(Bus &&) = default;
+    Bus &operator=(const Bus &) = default;
+    Bus &operator=(Bus &&) = default;
     ~Bus() override = default;
 
     std::expected<MemoryAccessResult, MemoryAccessError> read16(uint32_t address) override;

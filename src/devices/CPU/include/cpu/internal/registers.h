@@ -101,6 +101,6 @@ struct Registers {
         /// @}
     }sr;
 };
-static_assert(sizeof(Registers) == 76, "Registers struct size must be 76 bytes");
+static_assert(sizeof(Registers) == 76, "Registers struct size must be 76 bytes"); //NOLINT
 
 } // namespace m68k_

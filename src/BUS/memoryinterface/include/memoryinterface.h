@@ -18,9 +18,9 @@ class MemoryInterface {
 public:
     MemoryInterface() = default;
     MemoryInterface(const MemoryInterface &) = default;
-    MemoryInterface(MemoryInterface &&) = delete;
+    MemoryInterface(MemoryInterface &&) = default;
     MemoryInterface &operator=(const MemoryInterface &) = default;
-    MemoryInterface &operator=(MemoryInterface &&) = delete;
+    MemoryInterface &operator=(MemoryInterface &&) = default;
 
     virtual std::expected<MemoryAccessResult, MemoryAccessError> read16(uint32_t address) = 0;
     virtual std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) = 0;
