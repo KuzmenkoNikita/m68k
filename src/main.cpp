@@ -23,5 +23,9 @@ int main(int, char**){
     m68k::CPU cpu(std::make_shared<DataExchange::Bus>(bus));
     cpu.reset();
 
+    while (true) {
+        cpu.executeNextInstruction();
+    }
+
     return 0;
 }

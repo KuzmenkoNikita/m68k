@@ -2,7 +2,12 @@ cmake_minimum_required(VERSION 3.17.0)
 project(M68kCPUDevice VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 
-add_library(${PROJECT_NAME} STATIC ${CMAKE_CURRENT_SOURCE_DIR}/src/cpu.cpp)
+set(SOURCES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpu.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_decoder.cpp
+)
+
+add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
