@@ -1,11 +1,11 @@
 #pragma once
+#include <cpu/internal/instruction_decode_error.h>
 #include <cpu/internal/instruction_params.h>
+#include <cpu/internal/instruction_type_decoder.h>
 #include <cstdint>
 #include <expected>
 #include <memory>
 #include <memoryinterface.h>
-#include <cpu/internal/instruction_decode_error.h>
-#include <cpu/internal/instruction_type_decoder.h>
 
 namespace m68k {
 
