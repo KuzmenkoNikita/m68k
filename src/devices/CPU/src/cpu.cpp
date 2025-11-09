@@ -50,7 +50,7 @@ std::expected<CPU::MemoryAccessResult, DataExchange::MemoryAccessError> CPU::rea
 
 void CPU::executeNextInstruction()
 {
-    auto decodeResult = instructionDecoder_->decode(regs_.pc);
+    //auto decodeResult = instructionDecoder_->decode(regs_.pc);
 }
 
 } // namespace m68k

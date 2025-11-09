@@ -1,5 +1,5 @@
 #pragma once
-#include <cpu/internal/instruction_params.h>
+#include <instruction_params.h>
 #include <string_view>
 
 namespace m68k {
@@ -9,7 +9,7 @@ class InstructionBase {
 public:
     [[nodiscard]] constexpr std::string_view name() const
     {
-        return static_cast<RealInstruction*>(this)->nameImpl();
+        return RealInstruction::name;
     }
 
     [[nodiscard]] constexpr InstructionType type() const
@@ -24,7 +24,7 @@ public:
 
     [[nodiscard]] constexpr size_t length() const
     {
-        return RealInstruction::length;
+        return static_cast<const RealInstruction*>(this)->lengthImpl();
     }
 
     [[nodiscard]] constexpr auto data() const requires (RealInstruction::hasData)

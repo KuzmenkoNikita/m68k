@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 #include <cpu/internal/instruction_decode_error.h>
-#include <cpu/internal/instruction_params.h>
+#include <cpu/internal/instructions/instruction_params.h>
 #include <cpu/internal/opcodes_masks.h>
 #include <expected>
 

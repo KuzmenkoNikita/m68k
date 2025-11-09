@@ -1,6 +1,5 @@
 #pragma once
 #include <cpu/internal/instruction_decode_error.h>
-#include <cpu/internal/instruction_params.h>
 #include <cpu/internal/instruction_type_decoder.h>
 #include <cstdint>
 #include <expected>
@@ -14,7 +13,7 @@ class InstructionTypeDecoder;
 class InstructionDecoder {
 public:
     explicit InstructionDecoder(std::shared_ptr<DataExchange::MemoryInterface> bus);
-    [[nodiscard]] std::expected<Instruction, DecodeError> decode(uint32_t pc); //NOLINT(*-identifier-length)
+    //[[nodiscard]] std::expected<Instruction, DecodeError> decode(uint32_t pc); //NOLINT(*-identifier-length)
 
 private:
     std::shared_ptr<DataExchange::MemoryInterface> bus_;

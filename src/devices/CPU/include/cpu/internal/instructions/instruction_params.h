@@ -3,7 +3,7 @@
 
 namespace m68k {
 
-enum class OperandType : uint8_t {
+enum class AddressingMode : uint8_t {
     NONE,
     DATA_REGISTER,
     ADDRESS_REGISTER,
@@ -19,23 +19,10 @@ enum class OperandType : uint8_t {
     IMMEDIATE
 };
 
-enum class OperandSize : uint8_t {
+enum class OperationSize : uint8_t {
     BYTE,
     WORD,
     LONG
-};
-
-struct Operand {
-    OperandType type = OperandType::NONE;
-    OperandSize size = OperandSize::WORD;
-    
-    struct {
-        uint8_t reg = 0;        
-        int16_t displacement = 0; 
-        uint8_t indexReg = 0;   
-        bool isAddressReg = false; 
-        bool indexSizeLong = false; 
-    } details;
 };
 
 enum class InstructionType : uint8_t {
@@ -124,15 +111,6 @@ enum class InstructionType : uint8_t {
     ROL,
     ROR,
     INVALID
-};
-
-
-struct Instruction {
-    InstructionType type = InstructionType::INVALID;
-    OperandSize size = OperandSize::WORD;
-    Operand src;
-    Operand dst;
-    uint32_t length = 2;       
 };
 
 } // namespace m68k
