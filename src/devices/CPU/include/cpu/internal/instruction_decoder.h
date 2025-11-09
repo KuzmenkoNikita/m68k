@@ -32,7 +32,7 @@ private:
     std::shared_ptr<DataExchange::MemoryInterface> bus_;
 
     //NOLINTBEGIN
-    std::array<OpcodeIndo, 80> opcodeTable_ = {
+    std::array<OpcodeIndo, 96> opcodeTable_ = {
         OpcodeIndo{0xFFFF, 0x003C, InstructionType::ORI_to_CCR},
         OpcodeIndo{0xFFFF, 0x007C, InstructionType::ORI_to_SR},
         OpcodeIndo{0xF000, 0x0000, InstructionType::ORI},
@@ -103,7 +103,32 @@ private:
         OpcodeIndo{0xF0C0, 0x90C0, InstructionType::SUBA},
         OpcodeIndo{0xF100, 0xB100, InstructionType::EOR},
         OpcodeIndo{0xF138, 0xB108, InstructionType::CMPM},
-
+        OpcodeIndo{0xF100, 0xB000, InstructionType::CMP},
+        OpcodeIndo{0xF0C0, 0xB0C0, InstructionType::CMPA},
+        OpcodeIndo{0xF1C0, 0xC0C0, InstructionType::MULU},
+        OpcodeIndo{0xF1C0, 0xC1C0, InstructionType::MULS},
+        OpcodeIndo{0xF1F0, 0xC100, InstructionType::ABCD},
+        OpcodeIndo{0xF130, 0xC100, InstructionType::EXG},
+        OpcodeIndo{0xF000, 0xC000, InstructionType::AND},
+        OpcodeIndo{0xF000, 0xD000, InstructionType::ADD},
+        OpcodeIndo{0xF130, 0xD100, InstructionType::ADDX},
+        OpcodeIndo{0xF0C0, 0xD0C0, InstructionType::ADDA},
+        OpcodeIndo{0xFFC0, 0xE1C0, InstructionType::ASL},
+        OpcodeIndo{0xF118, 0xE100, InstructionType::ASL},
+        OpcodeIndo{0xFFC0, 0xE0C0, InstructionType::ASR},
+        OpcodeIndo{0xF118, 0xE000, InstructionType::ASR},
+        OpcodeIndo{0xFFC0, 0xE3C0, InstructionType::LSL},
+        OpcodeIndo{0xF118, 0xE108, InstructionType::LSL},
+        OpcodeIndo{0xFFC0, 0xE2C0, InstructionType::LSR},
+        OpcodeIndo{0xF118, 0xE008, InstructionType::LSR},
+        OpcodeIndo{0xFFC0, 0xE5C0, InstructionType::ROXL},
+        OpcodeIndo{0xF118, 0xE110, InstructionType::ROXL},
+        OpcodeIndo{0xFFC0, 0xE4C0, InstructionType::ROXR},
+        OpcodeIndo{0xF118, 0xE010, InstructionType::ROXR},
+        OpcodeIndo{0xFFC0, 0xE7C0, InstructionType::ROL},
+        OpcodeIndo{0xF118, 0xE118, InstructionType::ROL},
+        OpcodeIndo{0xFFC0, 0xE6C0, InstructionType::ROR},
+        OpcodeIndo{0xF118, 0xE018, InstructionType::ROR},
     };
     //NOLINTEND
 };
