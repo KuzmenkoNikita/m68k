@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(SOURCES 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpu.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_type_decoder.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
