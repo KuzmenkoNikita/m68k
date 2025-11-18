@@ -1,5 +1,5 @@
-#include <cpu/internal/instruction_type_decoder.h>
 #include <expected>
+#include <instruction_decoder/instruction_type_decoder.h>
 
 namespace m68k {
 

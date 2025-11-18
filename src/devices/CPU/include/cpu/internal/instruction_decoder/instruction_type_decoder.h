@@ -1,8 +1,8 @@
 #pragma once
+#include "instruction_decode_error.h"
+#include "opcodes_masks.h"
 #include <array>
-#include <cpu/internal/instruction_decode_error.h>
 #include <cpu/internal/instructions/instruction_params.h>
-#include <cpu/internal/opcodes_masks.h>
 #include <expected>
 
 namespace m68k {

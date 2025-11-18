@@ -43,14 +43,14 @@ std::expected<CPU::MemoryAccessResult, DataExchange::MemoryAccessError> CPU::rea
     }
 
     return CPU::MemoryAccessResult{
-        .data = (static_cast<uint32_t>(highResult->data) << 16) | static_cast<uint32_t>(lowResult->data),
+        .data = (static_cast<uint32_t>(highResult->data) << 16U) | static_cast<uint32_t>(lowResult->data),
         .waitCycles = highResult->waitCycles + lowResult->waitCycles
     };
 }
 
 void CPU::executeNextInstruction()
 {
-    //auto decodeResult = instructionDecoder_->decode(regs_.pc);
+    auto decodeResult = instructionDecoder_->decode(regs_.pc);
 }
 
 } // namespace m68k

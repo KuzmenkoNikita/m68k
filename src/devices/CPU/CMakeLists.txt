@@ -6,13 +6,15 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpu.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_type_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_factory.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/tst_decoder.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/cpu/internal/instructions)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/cpu/internal)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC BUSMemoryInterface)
 

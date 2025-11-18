@@ -1,5 +1,5 @@
 #pragma once
-#include <cpu/internal/instruction_decoder.h>
+#include <cpu/internal/instruction_decoder/instruction_decoder.h>
 #include <cpu/internal/registers.h>
 #include <memory>
 #include <memoryinterface.h>
