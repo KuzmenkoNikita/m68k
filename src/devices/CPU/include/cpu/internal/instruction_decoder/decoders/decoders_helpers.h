@@ -1,11 +1,11 @@
 #pragma once
 #include <expected>
-#include <instruction_decoder/instruction_decode_error.h>
-#include <instructions/data/addressing_mode_instruction_data.h>
-#include <instructions/instruction_params.h>
-#include <variant>
+#include <cpu/internal/instruction_decoder/instruction_decode_error.h>
+#include <cpu/internal/instructions/data/addressing_mode_instruction_data.h>
+#include <cpu/internal/instructions/instruction_params.h>
 #include <memory>
 #include <memoryinterface.h>
+#include <variant>
 
 namespace m68k::decoders_ {
 

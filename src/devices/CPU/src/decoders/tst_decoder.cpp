@@ -37,55 +37,8 @@ std::expected<DecodeResult, DecodeError> TSTDecoder::decodeImpl(uint16_t opcodeW
 
     uint32_t instructionSize = 2;
 
-    switch(modeValue) {
 
-        case DATA_REGISTER_MODE_VALUE: {
-            instructionData.addressingModeData = DataRegisterModeData{.dataRegNum = registerValue}; 
-            break;
-        }
-
-        case ADDRESS_REGISTER_MODE_VALUE: {
-             
-            break;
-        }
-
-        case ADDRESS_MODE_VALUE: {
-             
-            break;
-        }
-
-        case ADDRESS_WITH_POSTINCREMENT_MODE_VALUE: {
-             
-            break;
-        }
-
-        case ADDRESS_WITH_PREDECREMENT_MODE_VALUE: {
-             
-            break;
-        }
-
-        case ADDRESS_WITH_DISPLACEMENT_MODE_VALUE: {
-             
-            break;
-        }
-
-        case ADDRESS_WITH_INDEX_MODE_VALUE: {
-             
-            break;
-        }
-
-        case EXTENDED_MODES_VALUE: {
-
-            break;
-        }
-
-
-        default: {
-            return std::unexpected(DecodeError::INVALID_INSTRUCTION);
-        }
-    }
-
-    return instructionData;
+    return std::unexpected(DecodeError::INVALID_INSTRUCTION);
 }
 
 } // namespace m68k::decoders_

@@ -39,8 +39,7 @@ std::expected<Instruction, DecodeError> InstructionDecoder::decode(uint32_t pc) 
 std::expected<InstructionData::TSTInstructionData, DecodeError> InstructionDecoder::decodeTST(uint16_t opcode, uint32_t instructionDataAddr)
 {
     InstructionData::TSTInstructionData instructionData;
-    uint8_t sizeValue = (opcode & 0x00C0U) >> 6U;
-    int a = 0;
+
 
     return instructionData;
 }

@@ -50,6 +50,10 @@ namespace {
 
 std::expected<AddressingMode, DecodeError> getAddressingMode(uint8_t modeValue,  uint8_t registerValue)
 {
+    if(registerValue > 7 || modeValue > 7) { //NOLINT(*-magic-numbers)
+        return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
+    }
+
     switch(modeValue) {
 
         case DATA_REGISTER_MODE_VALUE: return AddressingMode::DATA_REGISTER;
