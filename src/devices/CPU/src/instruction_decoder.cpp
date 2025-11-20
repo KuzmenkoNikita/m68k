@@ -1,5 +1,8 @@
+#include <instruction_decoder/decoders/tst_decoder.h>
 #include <instruction_decoder/instruction_decoder.h>
 #include <instructions/instruction_params.h>
+#include <memory>
+#include <optional>
 
 namespace m68k {
 
@@ -7,10 +10,10 @@ InstructionDecoder::InstructionDecoder(std::shared_ptr<DataExchange::MemoryInter
                                     bus_(std::move(bus))
                                     , typeDecoder_(std::make_unique<InstructionTypeDecoder>())
 {
-
+    initDecoders();
 }
 
-std::expected<Instruction, DecodeError> InstructionDecoder::decode(uint32_t pc) //NOLINT(*-identifier-length)
+std::expected<DecodeResult, DecodeError> InstructionDecoder::decode(uint32_t pc) //NOLINT(*-identifier-length)
 {
     auto readResult = bus_->read16(pc);
     if(!readResult){
@@ -22,26 +25,19 @@ std::expected<Instruction, DecodeError> InstructionDecoder::decode(uint32_t pc) 
         return std::unexpected(DecodeError::INVALID_INSTRUCTION);
     }
 
-    switch(*instructionTypeResult) {
+    return decoders_.at(static_cast<size_t>(instructionTypeResult.value())).value()->decode(readResult.value().data, pc);
 
-        case InstructionType::TST: {
-            auto data = decodeTST(readResult->data, pc+2);
-        } 
+}
 
-        default: {
-            return std::unexpected(DecodeError::INVALID_INSTRUCTION);
-        }
+void InstructionDecoder::initDecoders()
+{
+    decoders_.reserve(static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT));
+    for(auto i = 0; i < static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT); ++i) {
+        decoders_.emplace_back(std::nullopt);
     }
 
-    return std::unexpected(DecodeError::INVALID_INSTRUCTION);
+    decoders_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<decoders_::TSTDecoder>(bus_);
 }
 
-std::expected<InstructionData::TSTInstructionData, DecodeError> InstructionDecoder::decodeTST(uint16_t opcode, uint32_t instructionDataAddr)
-{
-    InstructionData::TSTInstructionData instructionData;
-
-
-    return instructionData;
-}
 
 } // namespace m68k

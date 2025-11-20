@@ -110,7 +110,7 @@ enum class InstructionType : uint8_t {
     ROXR,
     ROL,
     ROR,
-    INVALID
+    INSTRUCTIONS_COUNT
 };
 
 } // namespace m68k

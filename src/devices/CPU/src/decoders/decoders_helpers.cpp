@@ -98,8 +98,8 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
             const auto readResult = params.bus->read16(params.instructionStartAddr + 2);
             if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+                
             }
-
             return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = static_cast<int16_t>(readResult->data)}, .bytesReaded=2};
         }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "addressing_mode_instruction_data.h"
+#include <cpu/internal/instructions/instruction_params.h>
 #include <variant>
 
 namespace m68k::InstructionData {
@@ -7,13 +8,7 @@ namespace m68k::InstructionData {
 
 struct TSTInstructionData {
 
-    enum class Size : uint8_t {
-        BYTE,
-        WORD,
-        LONG
-    };
-
-    Size size;
+    OperationSize size;
 
     std::variant<DataRegisterModeData,
                 AddressRegisterModeData,
