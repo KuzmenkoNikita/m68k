@@ -57,7 +57,7 @@ std::expected<DecodeResult, DecodeError> TSTDecoder::decode(uint16_t opcodeWord,
     instructionData.addressingModeData = addressingModeData.value().data;
 
     return DecodeResult {
-        .instruction = InstructionsFactory::makeTST(instructionData),
+        .instruction = instructionData,
         .instructionSizeBytes = static_cast<uint32_t>(addressingModeData.value().bytesReaded + sizeof(opcodeWord))
     };
 }

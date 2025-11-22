@@ -8,6 +8,7 @@ set(DECODERS_SOURCES
 
 set(SOURCES 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpu.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_type_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_factory.cpp

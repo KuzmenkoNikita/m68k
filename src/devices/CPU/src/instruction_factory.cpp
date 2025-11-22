@@ -2,14 +2,19 @@
 
 namespace m68k {
 
-Instruction InstructionsFactory::makeTST(const InstructionData::TSTInstructionData& data)
-{
-    return {InstructionType::TST, data};
-}
-
-Instruction InstructionsFactory::makeORItoCCR(const InstructionData::ORI_to_CCR_InstructionData& data)
-{
-    return {InstructionType::ORI_to_CCR, data};
-}
+//Instruction InstructionsFactory::make(const InstructionData::TSTInstructionData& data)
+//{
+//    return {InstructionType::TST, data};
+//}
+//
+//Instruction InstructionsFactory::make(const InstructionData::ORI_to_CCR_InstructionData& data)
+//{
+//    return {InstructionType::ORI_to_CCR, data};
+//}
+//
+//Instruction InstructionsFactory::make(const InstructionData::ORI_to_SR_InstructionData& data)
+//{
+//
+//}
 
 } //namespace m68k

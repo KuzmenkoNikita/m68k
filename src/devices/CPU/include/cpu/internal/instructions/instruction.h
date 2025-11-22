@@ -1,7 +1,6 @@
 #pragma once
-#include "instruction_params.h"
-#include "data/instruction_data.h"
-#include <utility>
+#include <cpu/internal/instructions/data/instruction_data.h>
+#include <cpu/internal/instructions/instruction_params.h>
 
 namespace m68k {
 
@@ -22,13 +21,13 @@ public:
         return type_;
     }
 
-    friend class InstructionsFactory;
+    //NOLINTBEGIN (*-explicit-constructor)
+    Instruction(const InstructionData::TSTInstructionData& data);
+    Instruction(const InstructionData::ORI_to_CCR_InstructionData& data);
+    Instruction(const InstructionData::ORI_to_SR_InstructionData& data);
+    //NOLINTEND
 
-private:
-    Instruction(InstructionType type, InstructionData::InstructionDataVariant data) :
-    type_(type)
-    , data_(std::move(data)) {};
-    
+
 private:
     InstructionType type_;
     InstructionData::InstructionDataVariant data_;

@@ -1,8 +1,6 @@
 #include <expected>
 #include <instruction_decoder/decoders/ORI_to_CCR_decoder.h>
 #include <instruction_decoder/decoders/decoders_helpers.h>
-#include <instructions/instruction_factory.h>
-
 
 namespace m68k::decoders_ {
 
@@ -28,7 +26,7 @@ std::expected<DecodeResult, DecodeError> ORI_to_CCR_Decoder::decode(uint16_t /*o
     };
 
     return DecodeResult{
-        .instruction = InstructionsFactory::makeORItoCCR(instructionData)
+        .instruction = instructionData
     };
 }
 
