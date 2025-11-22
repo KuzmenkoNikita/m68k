@@ -25,6 +25,8 @@ public:
     Instruction(const InstructionData::TSTInstructionData& data);
     Instruction(const InstructionData::ORI_to_CCR_InstructionData& data);
     Instruction(const InstructionData::ORI_to_SR_InstructionData& data);
+    Instruction(const InstructionData::ORI_InstructionData& data);
+    
     //NOLINTEND
 
 

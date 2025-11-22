@@ -23,4 +23,11 @@ Instruction::Instruction(const InstructionData::ORI_to_SR_InstructionData& data)
 
 }
 
+Instruction::Instruction(const InstructionData::ORI_InstructionData& data) :
+    type_(InstructionType::ORI)
+    , data_(data)
+{
+
+}
+
 } //namespace m68k
