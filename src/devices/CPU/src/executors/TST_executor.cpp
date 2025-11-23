@@ -1,0 +1,171 @@
+#include "instructions/instruction_params.h"
+#include <instruction_executor/executors/TST_executor.h>
+#include <spdlog/spdlog.h>
+#include <variant>
+
+namespace m68k::executors_ {
+
+namespace {
+
+constexpr uint32_t BYTE_VALUE_MASK = 0x000000FFU;
+constexpr uint32_t WORD_VALUE_MASK = 0x0000FFFFU;
+constexpr uint32_t LONG_VALUE_MASK = 0xFFFFFFFFU;
+
+constexpr uint32_t BYTE_SIGN_BIT_CHECK_MASK = 0x80U;
+constexpr uint32_t WORD_SIGN_BIT_CHECK_MASK = 0x8000U;
+constexpr uint32_t LONG_SIGN_BIT_CHECK_MASK = 0x80000000U;
+
+
+std::expected<uint32_t, ExecuteError> getMaskValueBySize(OperationSize size)
+{
+    uint32_t mask = 0;
+
+    switch(size) {
+
+        case OperationSize::BYTE: {
+            mask = BYTE_VALUE_MASK;
+            break;
+        }
+
+        case OperationSize::WORD: {
+            mask = WORD_VALUE_MASK;
+            break;
+        }
+
+        case OperationSize::LONG: {
+            mask = LONG_VALUE_MASK;
+            break;
+        }
+
+        default: {
+            spdlog::error("Invalid operation size");
+            return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);
+        }
+    }
+
+    return mask;
+}
+
+}//namespace
+
+TST_executor::TST_executor(std::shared_ptr<DataExchange::MemoryInterface> bus, 
+                            std::shared_ptr<m68k_::Registers> registers) :
+                            bus_(std::move(bus))
+                            , registers_(std::move(registers))
+{
+
+}
+
+
+std::expected<void, ExecuteError> TST_executor::execute(const Instruction& instruction)
+{
+    if(instruction.type() != InstructionType::TST) {
+        spdlog::error("Invalid instruction type");
+        return std::unexpected(ExecuteError::INVALID_INSTRUCTION);
+    }
+
+    const auto instructionData = instruction.data<InstructionData::TSTInstructionData>();
+
+    const auto size = instructionData.size;
+
+    return std::visit([this, &size](const auto& data) {
+        return execute(data, size);
+    }, instructionData.addressingModeData);
+
+    return {};
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const DataRegisterModeData& data, OperationSize size)
+{
+    const auto maskValue = getMaskValueBySize(size);
+    if(!maskValue) {
+        spdlog::error("Failed to get mask for operation size");
+        return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);        
+    }
+
+    setConditionCodes(registers_->dataRegisters.at(data.dataRegNum) & maskValue.value(), size);
+
+    return {};
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AddressRegisterModeData& data, OperationSize size)
+{
+    const auto maskValue = getMaskValueBySize(size);
+    if(!maskValue) {
+        spdlog::error("Failed to get mask for operation size");
+        return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);        
+    }
+
+    setConditionCodes(registers_->addressRegisters.at(data.addressRegNum) & maskValue.value(), size);
+
+    return {};
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AddressModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AddressWithPostincrementModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AddressWithPredecrementModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AddressWithDisplacementModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AddressWithIndexModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const ProgramCounterWithDisplacementModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const ProgramCounterWithIndexModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AbsoluteShortModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const AbsoluteLongModeData& data, OperationSize size)
+{
+
+}
+
+std::expected<void, ExecuteError> TST_executor::execute(const ImmediateModeData& data, OperationSize size)
+{
+
+}
+
+void TST_executor::setConditionCodes(uint32_t value, OperationSize size)
+{
+    registers_->sr.carry = false;
+    registers_->sr.overflow = false;
+
+    if (size == OperationSize::BYTE) {
+        registers_->sr.negative = (value & BYTE_SIGN_BIT_CHECK_MASK) != 0;
+    } else if (size == OperationSize::WORD) {
+        registers_->sr.negative = (value & WORD_SIGN_BIT_CHECK_MASK) != 0;
+    } else {
+        registers_->sr.negative = (value & LONG_SIGN_BIT_CHECK_MASK) != 0;
+    }
+
+    registers_->sr.zero = value == 0;
+
+}
+
+} // namespace m68k::executors_

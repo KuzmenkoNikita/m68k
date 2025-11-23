@@ -2,7 +2,6 @@
 #include <cpu/internal/instruction_decoder/decode_result.h>
 #include <cpu/internal/instruction_decoder/instruction_decode_error.h>
 #include <expected>
-#include <memoryinterface.h>
 
 namespace m68k::decoders_ {
 class IDecoder {

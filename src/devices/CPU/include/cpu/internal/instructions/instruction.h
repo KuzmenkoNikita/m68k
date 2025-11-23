@@ -12,7 +12,7 @@ public:
     const DataType& data() const 
     {
         if constexpr (std::is_same_v<DataType, InstructionData::TSTInstructionData>) {
-            return std::get<DataType>();
+            return std::get<DataType>(data_);
         }
     }
 

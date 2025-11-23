@@ -30,8 +30,8 @@ public:
     Bus &operator=(Bus &&) = default;
     ~Bus() override = default;
 
-    std::expected<MemoryAccessResult, MemoryAccessError> read16(uint32_t address) override;
-    std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) override;
+    [[nodiscard]] std::expected<MemoryAccessResult, MemoryAccessError> read16(uint32_t address) const override;
+    [[nodiscard]] std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) const override;
     bool mapDevice(DeviceParams deviceParams);
 
 private:

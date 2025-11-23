@@ -1,7 +1,7 @@
 #pragma once
 #include <cpu/internal/instruction_decoder/decoders/base_decoder.h>
 #include <memory>
-
+#include <memoryinterface.h>
 namespace m68k::decoders_ {
 
 class TSTDecoder final : public IDecoder

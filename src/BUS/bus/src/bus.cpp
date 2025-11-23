@@ -4,11 +4,13 @@
 
 namespace DataExchange {
 
-std::expected<MemoryAccessResult, MemoryAccessError> Bus::read16(uint32_t address)
+std::expected<MemoryAccessResult, MemoryAccessError> Bus::read16(uint32_t address) const
 {
-    auto deviceOpt = findDevice(OperationType::READ, address);
+    const uint32_t alignedAddr = address & ~1U;
+
+    auto deviceOpt = findDevice(OperationType::READ, alignedAddr);
     if (!deviceOpt.has_value()) {
-        spdlog::error("Read attempt from unmapped address: 0x{:08X}", address);
+        spdlog::error("Read attempt from unmapped address: 0x{:08X}", alignedAddr);
         return std::unexpected(MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS);
     }
 
@@ -21,11 +23,13 @@ std::expected<MemoryAccessResult, MemoryAccessError> Bus::read16(uint32_t addres
     };
 }
 
-std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t value)
+std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t value) const 
 {
-    auto deviceOpt = findDevice(OperationType::WRITE, address);
+    const uint32_t alignedAddr = address & ~1U;
+
+    auto deviceOpt = findDevice(OperationType::WRITE, alignedAddr);
     if (!deviceOpt.has_value()) {
-        spdlog::error("Write attempt to unmapped address: 0x{:08X}", address);
+        spdlog::error("Write attempt to unmapped address: 0x{:08X}", alignedAddr);
         return std::unexpected(MemoryAccessError::WRITE_TO_UNMAPPED_ADDRESS);
     }
 

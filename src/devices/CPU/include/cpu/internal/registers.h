@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <cstdint>
 
 /**
@@ -24,30 +25,13 @@ namespace m68k_ {
  *  - Status register (sr) broken out into condition codes and system flags
  */
 struct Registers {
-    /// @name Data registers
-    /// @{
-    uint32_t d0; ///< Data register D0 (32-bit)
-    uint32_t d1; ///< Data register D1 (32-bit)
-    uint32_t d2; ///< Data register D2 (32-bit)
-    uint32_t d3; ///< Data register D3 (32-bit)
-    uint32_t d4; ///< Data register D4 (32-bit)
-    uint32_t d5; ///< Data register D5 (32-bit)
-    uint32_t d6; ///< Data register D6 (32-bit)
-    uint32_t d7; ///< Data register D7 (32-bit)
-    /// @}
+    /// @brief Data registers
+    std::array<uint32_t, 8> dataRegisters;
 
-    /// @name Address registers
-    /// @{
-    uint32_t a0; ///< Address register A0 (32-bit)
-    uint32_t a1; ///< Address register A1 (32-bit)
-    uint32_t a2; ///< Address register A2 (32-bit)
-    uint32_t a3; ///< Address register A3 (32-bit)
-    uint32_t a4; ///< Address register A4 (32-bit)
-    uint32_t a5; ///< Address register A5 (32-bit)
-    uint32_t a6; ///< Address register A6 (32-bit / frame pointer)
-    /// @}
+    /// @brief Address registers
+    std::array<uint32_t, 7> addressRegisters;
 
-        /**
+    /**
      * @brief User stack pointer (USP).
      *
      * The Motorola 68000 uses A7 as the active stack pointer. The emulator
