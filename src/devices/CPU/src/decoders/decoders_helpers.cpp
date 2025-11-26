@@ -1,5 +1,6 @@
 #include <bus_helper/bus_helper.h>
 #include <cstdint>
+#include <expected>
 #include <instruction_decoder/decoders/decoders_helpers.h>
 
 namespace m68k::decoders_ {
@@ -30,6 +31,9 @@ namespace {
     constexpr uint8_t BRIEF_EXT_WORD_REG_TYPE_MASK = 0x8000U;
     constexpr uint8_t BRIEF_EXT_WORD_REG_TYPE_POS = 15;
 
+    constexpr uint8_t REGISTER_MAX_VALUE = 7;
+    constexpr uint8_t MODE_MAX_VALUE = 7;
+
     IndexedMode::BriefExtensionWord getExtensionWord(uint16_t extensionWord)
     {
         IndexedMode::BriefExtensionWord result{};
@@ -51,7 +55,7 @@ namespace {
 
 std::expected<AddressingMode, DecodeError> getAddressingMode(uint8_t modeValue,  uint8_t registerValue)
 {
-    if(registerValue > 7 || modeValue > 7) { //NOLINT(*-magic-numbers)
+    if(registerValue > REGISTER_MAX_VALUE || modeValue > MODE_MAX_VALUE) { 
         return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
     }
 
@@ -88,6 +92,10 @@ std::expected<AddressingMode, DecodeError> getAddressingMode(uint8_t modeValue, 
 
 std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
 {
+    if(params.registerValue > REGISTER_MAX_VALUE) {
+        return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+    }
+
     switch(params.addressingMode) {
         case AddressingMode::DATA_REGISTER: return AddressingModeDataResult{.data=DataRegisterModeData{.dataRegNum = params.registerValue}, .bytesReaded=0};
         case AddressingMode::ADDRESS_REGISTER: return AddressingModeDataResult{.data=AddressRegisterModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};

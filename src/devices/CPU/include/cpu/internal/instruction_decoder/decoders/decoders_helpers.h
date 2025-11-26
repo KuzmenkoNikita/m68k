@@ -1,9 +1,8 @@
 #pragma once
-#include <expected>
 #include <cpu/internal/instruction_decoder/instruction_decode_error.h>
 #include <cpu/internal/instructions/data/addressing_mode_instruction_data.h>
 #include <cpu/internal/instructions/instruction_params.h>
-#include <memory>
+#include <expected>
 #include <memoryinterface.h>
 #include <variant>
 

@@ -1,5 +1,7 @@
+#include "cpu/internal/instruction_decoder/instruction_decode_error.h"
 #include <gtest/gtest.h>
 #include <cpu/internal/instruction_decoder/decoders/decoders_helpers.h>
+#include <mock_bus.h>
 
 namespace {
 
@@ -72,6 +74,57 @@ TEST(DecodersHelpersTests, getAddressingModeTest)
 
     //NOLINTEND(*-magic-numbers)
 } 
+
+TEST(DecodersHelpersTests, getAddressingModeDataRegister) 
+{
+    testing::StrictMock<m68k::BusHelpersTest::MockBus> strictBus;
+
+    m68k::decoders_::GetAddressingModeDataParams params {
+        .opSize = m68k::OperationSize::WORD,
+        .addressingMode = m68k::AddressingMode::DATA_REGISTER,
+        .registerValue = 2,
+        .instructionStartAddr = 0x10000000
+    };
+
+    auto result = m68k::decoders_::getAddressingModeData(strictBus, params);
+    ASSERT_TRUE(result.has_value());
+    ASSERT_NO_THROW(std::get<m68k::DataRegisterModeData>(result->data));
+    auto data = std::get<m68k::DataRegisterModeData>(result->data);
+    EXPECT_EQ(data.dataRegNum, 2);
+
+    /* ************ */
+    params.registerValue = 42;
+    result = m68k::decoders_::getAddressingModeData(strictBus, params);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error(), m68k::DecodeError::INVALID_REGISTER_VALUE);
+
+    /* ************ */
+    params.registerValue = 7;
+    result = m68k::decoders_::getAddressingModeData(strictBus, params);
+    ASSERT_NO_THROW(std::get<m68k::DataRegisterModeData>(result->data));
+    data = std::get<m68k::DataRegisterModeData>(result->data);
+    EXPECT_EQ(data.dataRegNum, 7);
+
+    /* ************ */
+    params.registerValue = 8;
+    result = m68k::decoders_::getAddressingModeData(strictBus, params);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error(), m68k::DecodeError::INVALID_REGISTER_VALUE);
+
+    /* ************ */
+    params.registerValue = 0;
+    result = m68k::decoders_::getAddressingModeData(strictBus, params);
+    ASSERT_NO_THROW(std::get<m68k::DataRegisterModeData>(result->data));
+    data = std::get<m68k::DataRegisterModeData>(result->data);
+    EXPECT_EQ(data.dataRegNum, 0);
+
+    /* ************ */
+    params.addressingMode = m68k::AddressingMode::NONE;
+    result = m68k::decoders_::getAddressingModeData(strictBus, params);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error(), m68k::DecodeError::INVALID_ADDRESSING_MODE);
+
+}
 
 
 
