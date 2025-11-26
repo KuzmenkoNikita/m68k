@@ -1,3 +1,4 @@
+#include <bus_helper/bus_helper.h>
 #include <cstdint>
 #include <instruction_decoder/decoders/decoders_helpers.h>
 
@@ -95,17 +96,17 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
         case AddressingMode::ADDRESS_WITH_PREDECREMENT: return AddressingModeDataResult{.data=AddressWithPredecrementModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
         case AddressingMode::ADDRESS_WITH_DISPLACEMENT: {
 
-            const auto readResult = params.bus->read16(params.instructionStartAddr + 2);
+            const auto readResult = m68k::busHelper::read<int16_t>(*params.bus, params.instructionStartAddr + 2);
             if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-                
             }
-            return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = static_cast<int16_t>(readResult->data)}, .bytesReaded=2};
+
+            return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = readResult->data}, .bytesReaded=2};
         }
 
         case AddressingMode::ADDRESS_WITH_INDEX: {
 
-            const auto readResult = params.bus->read16(params.instructionStartAddr + 2);
+            const auto readResult = m68k::busHelper::read<uint16_t>(*params.bus, params.instructionStartAddr + 2);
             if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
             }
@@ -115,17 +116,17 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
 
         case AddressingMode::PC_WITH_DISPLACEMENT: {
 
-            const auto readResult = params.bus->read16(params.instructionStartAddr + 2);
+            const auto readResult = m68k::busHelper::read<int16_t>(*params.bus, params.instructionStartAddr + 2);
             if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
             }
 
-            return AddressingModeDataResult{.data = ProgramCounterWithDisplacementModeData{.displacement = static_cast<int16_t>(readResult->data)}, .bytesReaded = 2};
+            return AddressingModeDataResult{.data = ProgramCounterWithDisplacementModeData{.displacement = readResult->data}, .bytesReaded = 2};
         }
 
         case AddressingMode::PC_WITH_INDEX: {
 
-            const auto readResult = params.bus->read16(params.instructionStartAddr + 2);
+            const auto readResult = m68k::busHelper::read<uint16_t>(*params.bus, params.instructionStartAddr + 2);
             if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
             }
@@ -135,7 +136,7 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
 
         case AddressingMode::ABSOLUTE_SHORT: {
 
-            const auto readResult = params.bus->read16(params.instructionStartAddr + 2);
+            const auto readResult = m68k::busHelper::read<uint16_t>(*params.bus, params.instructionStartAddr + 2);
             if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
             }
@@ -145,53 +146,51 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
 
         case AddressingMode::ABSOLUTE_LONG: {
 
-            auto highResult = params.bus->read16(params.instructionStartAddr + 2);
-            if (!highResult) {
+            const auto readResult = m68k::busHelper::read<uint32_t>(*params.bus, params.instructionStartAddr + 2);
+            if(!readResult) {
                 return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
             }
 
-            auto lowResult = params.bus->read16(params.instructionStartAddr + 4);
-            if (!lowResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            const auto data = (static_cast<uint32_t>(highResult->data) << 16U) | static_cast<uint32_t>(lowResult->data);
-
-            return AddressingModeDataResult{.data = AbsoluteLongModeData{.address = data}, .bytesReaded = 4};
+            return AddressingModeDataResult{.data = AbsoluteLongModeData{.address = readResult->data}, .bytesReaded = 4};
         }
 
         case AddressingMode::IMMEDIATE: {
-
-            auto highResult = params.bus->read16(params.instructionStartAddr + 2);
-            if (!highResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
 
             ImmediateModeData data{};
 
             switch(params.opSize) {
 
                 case OperationSize::BYTE: {
-                    uint8_t value = static_cast<uint8_t>(highResult->data & 0x00FFU); //NOLINT
-                    data.immediateData.byteData = value; //NOLINT(*-union-access)
+
+                    const auto readResult = m68k::busHelper::read<uint8_t>(*params.bus, params.instructionStartAddr + 2);
+                    if(!readResult) {
+                        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+                    }
+
+                    data.immediateData.byteData = readResult->data; //NOLINT(*-union-access)
 
                     return AddressingModeDataResult{.data = data, .bytesReaded = 2};
                 }
 
                 case OperationSize::WORD: {
-                    data.immediateData.wordData = highResult->data; //NOLINT(*-union-access)
+
+                    const auto readResult = m68k::busHelper::read<uint16_t>(*params.bus, params.instructionStartAddr + 2);
+                    if(!readResult) {
+                        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+                    }
+
+                    data.immediateData.wordData = readResult->data; //NOLINT(*-union-access)
                     return AddressingModeDataResult{.data = data, .bytesReaded = 2};
                 }
 
                 case OperationSize::LONG: {
-                    auto lowResult = params.bus->read16(params.instructionStartAddr + 4);
-                    if (!lowResult) {
+                    
+                    const auto readResult = m68k::busHelper::read<uint32_t>(*params.bus, params.instructionStartAddr + 2);
+                    if(!readResult) {
                         return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
                     }
 
-                    const auto value = (static_cast<uint32_t>(highResult->data) << 16U) | static_cast<uint32_t>(lowResult->data);
-
-                    data.immediateData.longData = value; //NOLINT(*-union-access)
+                    data.immediateData.longData = readResult->data; //NOLINT(*-union-access)
                     return AddressingModeDataResult{.data = data, .bytesReaded = 4};
                 }
 
