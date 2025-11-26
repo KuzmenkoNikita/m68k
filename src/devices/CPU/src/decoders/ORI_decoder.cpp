@@ -57,11 +57,10 @@ std::expected<DecodeResult, DecodeError> ORI_Decoder::decode(uint16_t opcodeWord
         .opSize = instructionData.size,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr,
-        .bus = bus_
+        .instructionStartAddr = instructionStartAddr
     };
 
-    const auto addressingModeData = m68k::decoders_::getAddressingModeData(getAddressingModeParams);
+    const auto addressingModeData = m68k::decoders_::getAddressingModeData(*bus_, getAddressingModeParams);
     if(!addressingModeData) {
         return std::unexpected(addressingModeData.error());
     }
