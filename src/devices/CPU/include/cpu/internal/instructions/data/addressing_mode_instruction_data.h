@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <variant>
 
 namespace m68k {
 
@@ -83,11 +84,9 @@ struct AbsoluteLongModeData
 
 struct ImmediateModeData
 {
-    union {
-        uint8_t byteData;
-        uint16_t wordData;
-        uint32_t longData;
-    }immediateData;
+    std::variant<uint8_t,
+                uint16_t,
+                uint32_t> immediateData;
 };
 
 

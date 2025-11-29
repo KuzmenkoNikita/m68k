@@ -23,19 +23,24 @@ namespace {
     constexpr uint8_t PC_WITH_INDEX_REGISTER_VALUE = 3;
     constexpr uint8_t IMMEDIATRE_REGISTER_VALUE = 4;
 
-    constexpr uint8_t BRIEF_EXT_WORD_DISPLACEMENT_MASK = 0x00FFU;
-    constexpr uint8_t BRIEF_EXT_WORD_INDEX_SIZE_MASK = 0x0800U;
+    constexpr uint16_t BRIEF_EXT_WORD_DISPLACEMENT_MASK = 0x00FFU;
+    constexpr uint16_t BRIEF_EXT_WORD_INDEX_SIZE_MASK = 0x0800U;
     constexpr uint8_t BRIEF_EXT_WORD_INDEX_SIZE_POS = 11;
-    constexpr uint8_t BRIEF_EXT_WORD_REG_NUM_MASK = 0x7000U;
+    constexpr uint16_t BRIEF_EXT_WORD_REG_NUM_MASK = 0x7000U;
     constexpr uint8_t BRIEF_EXT_WORD_REG_NUM_POS = 12;
-    constexpr uint8_t BRIEF_EXT_WORD_REG_TYPE_MASK = 0x8000U;
+    constexpr uint16_t BRIEF_EXT_WORD_REG_TYPE_MASK = 0x8000U;
     constexpr uint8_t BRIEF_EXT_WORD_REG_TYPE_POS = 15;
 
     constexpr uint8_t REGISTER_MAX_VALUE = 7;
     constexpr uint8_t MODE_MAX_VALUE = 7;
 
-    IndexedMode::BriefExtensionWord getExtensionWord(uint16_t extensionWord)
+    std::expected<IndexedMode::BriefExtensionWord,  DecodeError> getExtensionWord(uint16_t extensionWord)
     {
+        constexpr uint16_t requiredZeroMask = 0x0700;
+        if((extensionWord & requiredZeroMask) != 0) {
+            return std::unexpected(DecodeError::INVALID_BRIEF_EXTENSION_WORD);
+        }
+
         IndexedMode::BriefExtensionWord result{};
 
         static_assert(static_cast<uint8_t>(IndexedMode::IndexSize::WORD) == 0);
@@ -51,6 +56,177 @@ namespace {
 
         return result;
     }
+
+    std::expected<AddressingModeDataResult, DecodeError> getDataRegisterData(const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }
+
+        return AddressingModeDataResult{.data=DataRegisterModeData{.dataRegNum = params.registerValue}, .bytesReaded=0};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAddressRegisterData(const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }        
+
+        return AddressingModeDataResult{.data=AddressRegisterModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAddressData(const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }
+        
+        return AddressingModeDataResult{.data=AddressModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAddressWithPostincrementData(const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }
+        
+        return AddressingModeDataResult{.data=AddressWithPostincrementModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAddressWithPredecrementData(const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }
+        
+        return AddressingModeDataResult{.data=AddressWithPredecrementModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAddressWithDisplacementData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }
+
+        const auto readResult = m68k::busHelper::read<int16_t>(bus, params.instructionStartAddr + 2);
+        if(!readResult) {
+            return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+        }
+
+        return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = readResult->data}, .bytesReaded=2};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAddressWithIndexData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        if(params.registerValue > REGISTER_MAX_VALUE) {
+            return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
+        }
+
+        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+        if(!readResult) {
+            return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+        }
+
+        const auto extensionWordResult = getExtensionWord(readResult->data);
+        if(!extensionWordResult){
+            return std::unexpected(extensionWordResult.error());
+        }
+
+        return AddressingModeDataResult{.data=AddressWithIndexModeData{.addressRegNum =params.registerValue, .extensionWord = extensionWordResult.value()}, .bytesReaded = 2};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getPcWithDisplacementData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        const auto readResult = m68k::busHelper::read<int16_t>(bus, params.instructionStartAddr + 2);
+        if(!readResult) {
+            return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+        }
+
+        return AddressingModeDataResult{.data = ProgramCounterWithDisplacementModeData{.displacement = readResult->data}, .bytesReaded = 2};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getPcWithIndexData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+        if(!readResult) {
+            return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+        }
+
+        const auto extensionWordResult = getExtensionWord(readResult->data);
+        if(!extensionWordResult){
+            return std::unexpected(extensionWordResult.error());
+        }
+
+        return AddressingModeDataResult{.data = ProgramCounterWithIndexModeData{.extensionWord = extensionWordResult.value()}, .bytesReaded = 2};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAbsoluteShortData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+        if(!readResult) {
+            return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+        }
+
+        return AddressingModeDataResult{.data = AbsoluteShortModeData{.address = readResult->data}, .bytesReaded = 2};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getAbsoluteLongData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.instructionStartAddr + 2);
+        if(!readResult) {
+            return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+        }
+
+        return AddressingModeDataResult{.data = AbsoluteLongModeData{.address = readResult->data}, .bytesReaded = 4};
+    }
+
+    std::expected<AddressingModeDataResult, DecodeError> getImmediateData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
+    {
+        ImmediateModeData data{};
+
+        switch(params.opSize) {
+
+            case OperationSize::BYTE: {
+
+                const auto readResult = m68k::busHelper::read<uint8_t>(bus, params.instructionStartAddr + 2);
+                if(!readResult) {
+                    return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+                }
+
+                data.immediateData = readResult->data; 
+
+                return AddressingModeDataResult{.data = data, .bytesReaded = 2};
+            }
+
+            case OperationSize::WORD: {
+
+                const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+                if(!readResult) {
+                    return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+                }
+
+                data.immediateData = readResult->data; 
+                return AddressingModeDataResult{.data = data, .bytesReaded = 2};
+            }
+
+            case OperationSize::LONG: {
+
+                const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.instructionStartAddr + 2);
+                if(!readResult) {
+                    return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+                }
+
+                data.immediateData = readResult->data; 
+                return AddressingModeDataResult{.data = data, .bytesReaded = 4};
+            }
+
+            default: {
+                return std::unexpected(DecodeError::INVALID_INSTRUCTION);
+            }
+        }
+    }
+
+
 } // namespace
 
 std::expected<AddressingMode, DecodeError> getAddressingMode(uint8_t modeValue,  uint8_t registerValue)
@@ -97,120 +273,20 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
     }
 
     switch(params.addressingMode) {
-        case AddressingMode::DATA_REGISTER: return AddressingModeDataResult{.data=DataRegisterModeData{.dataRegNum = params.registerValue}, .bytesReaded=0};
-        case AddressingMode::ADDRESS_REGISTER: return AddressingModeDataResult{.data=AddressRegisterModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
-        case AddressingMode::ADDRESS: return AddressingModeDataResult{.data=AddressModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
-        case AddressingMode::ADDRESS_WITH_POSTINCREMENT: return AddressingModeDataResult{.data=AddressWithPostincrementModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
-        case AddressingMode::ADDRESS_WITH_PREDECREMENT: return AddressingModeDataResult{.data=AddressWithPredecrementModeData{.addressRegNum = params.registerValue}, .bytesReaded=0};
-        case AddressingMode::ADDRESS_WITH_DISPLACEMENT: {
+        case AddressingMode::DATA_REGISTER:                 return getDataRegisterData(params);
+        case AddressingMode::ADDRESS_REGISTER:              return getAddressRegisterData(params);
+        case AddressingMode::ADDRESS:                       return getAddressData(params);
+        case AddressingMode::ADDRESS_WITH_POSTINCREMENT:    return getAddressWithPostincrementData(params);
+        case AddressingMode::ADDRESS_WITH_PREDECREMENT:     return getAddressWithPredecrementData(params);
+        case AddressingMode::ADDRESS_WITH_DISPLACEMENT:     return getAddressWithDisplacementData(bus, params);
+        case AddressingMode::ADDRESS_WITH_INDEX:            return getAddressWithIndexData(bus, params);
+        case AddressingMode::PC_WITH_DISPLACEMENT:          return getPcWithDisplacementData(bus, params);
+        case AddressingMode::PC_WITH_INDEX:                 return getPcWithIndexData(bus, params);
+        case AddressingMode::ABSOLUTE_SHORT:                return getAbsoluteShortData(bus, params);
+        case AddressingMode::ABSOLUTE_LONG:                 return getAbsoluteLongData(bus, params);
+        case AddressingMode::IMMEDIATE:                     return getImmediateData(bus, params);
 
-            const auto readResult = m68k::busHelper::read<int16_t>(bus, params.instructionStartAddr + 2);
-            if(!readResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = readResult->data}, .bytesReaded=2};
-        }
-
-        case AddressingMode::ADDRESS_WITH_INDEX: {
-
-            const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
-            if(!readResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            return AddressingModeDataResult{.data=AddressWithIndexModeData{.addressRegNum =params.registerValue, .extensionWord = getExtensionWord(readResult->data)}, .bytesReaded = 2};
-        }
-
-        case AddressingMode::PC_WITH_DISPLACEMENT: {
-
-            const auto readResult = m68k::busHelper::read<int16_t>(bus, params.instructionStartAddr + 2);
-            if(!readResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            return AddressingModeDataResult{.data = ProgramCounterWithDisplacementModeData{.displacement = readResult->data}, .bytesReaded = 2};
-        }
-
-        case AddressingMode::PC_WITH_INDEX: {
-
-            const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
-            if(!readResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            return AddressingModeDataResult{.data = ProgramCounterWithIndexModeData{.extensionWord = getExtensionWord(readResult->data)}, .bytesReaded = 2};
-        }
-
-        case AddressingMode::ABSOLUTE_SHORT: {
-
-            const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
-            if(!readResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            return AddressingModeDataResult{.data = AbsoluteShortModeData{.address = readResult->data}, .bytesReaded = 2};
-        }
-
-        case AddressingMode::ABSOLUTE_LONG: {
-
-            const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.instructionStartAddr + 2);
-            if(!readResult) {
-                return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-            }
-
-            return AddressingModeDataResult{.data = AbsoluteLongModeData{.address = readResult->data}, .bytesReaded = 4};
-        }
-
-        case AddressingMode::IMMEDIATE: {
-
-            ImmediateModeData data{};
-
-            switch(params.opSize) {
-
-                case OperationSize::BYTE: {
-
-                    const auto readResult = m68k::busHelper::read<uint8_t>(bus, params.instructionStartAddr + 2);
-                    if(!readResult) {
-                        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-                    }
-
-                    data.immediateData.byteData = readResult->data; //NOLINT(*-union-access)
-
-                    return AddressingModeDataResult{.data = data, .bytesReaded = 2};
-                }
-
-                case OperationSize::WORD: {
-
-                    const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
-                    if(!readResult) {
-                        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-                    }
-
-                    data.immediateData.wordData = readResult->data; //NOLINT(*-union-access)
-                    return AddressingModeDataResult{.data = data, .bytesReaded = 2};
-                }
-
-                case OperationSize::LONG: {
-
-                    const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.instructionStartAddr + 2);
-                    if(!readResult) {
-                        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-                    }
-
-                    data.immediateData.longData = readResult->data; //NOLINT(*-union-access)
-                    return AddressingModeDataResult{.data = data, .bytesReaded = 4};
-                }
-
-                default: {
-                    return std::unexpected(DecodeError::INVALID_INSTRUCTION);
-                }
-            }
-        }
-
-        default: {
-            return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
-        }
+        default:                                            return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
     }
 }
 
