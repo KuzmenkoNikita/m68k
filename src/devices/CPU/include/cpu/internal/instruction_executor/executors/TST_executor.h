@@ -1,8 +1,8 @@
 #pragma once
 #include <cpu/internal/instruction_executor/base_executor.h>
+#include <cpu/internal/registers.h>
 #include <memory>
 #include <memoryinterface.h>
-#include <cpu/internal/registers.h>
 
 namespace m68k::executors_ {
 

@@ -1,4 +1,6 @@
 #include "instructions/instruction_params.h"
+#include <bus_helper/bus_helper.h>
+#include <expected>
 #include <instruction_executor/executors/TST_executor.h>
 #include <spdlog/spdlog.h>
 #include <variant>
@@ -83,7 +85,7 @@ std::expected<void, ExecuteError> TST_executor::execute(const DataRegisterModeDa
         return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);        
     }
 
-    setConditionCodes(registers_->dataRegisters.at(data.dataRegNum) & maskValue.value(), size);
+    setConditionCodes(registers_->D(data.dataRegNum) & maskValue.value(), size);
 
     return {};
 }
@@ -96,14 +98,64 @@ std::expected<void, ExecuteError> TST_executor::execute(const AddressRegisterMod
         return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);        
     }
 
-    setConditionCodes(registers_->addressRegisters.at(data.addressRegNum) & maskValue.value(), size);
+    setConditionCodes(registers_->A(data.addressRegNum) & maskValue.value(), size);
 
     return {};
 }
 
 std::expected<void, ExecuteError> TST_executor::execute(const AddressModeData& data, OperationSize size)
 {
+    const uint32_t address =  registers_->A(data.addressRegNum);
 
+    uint32_t value = 0;
+
+    switch(size) {
+        case OperationSize::BYTE: {
+
+            const auto readResult = m68k::busHelper::read<uint8_t>(*bus_, address);
+            if(!readResult){
+                return std::unexpected(ExecuteError::MEMORY_READ_FAILURE);
+            }
+
+            value = readResult->data;
+
+            break;
+        }
+
+        case OperationSize::WORD: {
+
+            const auto readResult = m68k::busHelper::read<uint16_t>(*bus_, address);
+            if(!readResult){
+                return std::unexpected(ExecuteError::MEMORY_READ_FAILURE);
+            }
+
+            value = readResult->data;
+
+            break;
+        }
+
+        case OperationSize::LONG: {
+
+            const auto readResult = m68k::busHelper::read<uint32_t>(*bus_, address);
+            if(!readResult){
+                return std::unexpected(ExecuteError::MEMORY_READ_FAILURE);
+            }
+
+            value = readResult->data;
+        }
+
+        default: return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);
+    }
+
+    const auto maskValue = getMaskValueBySize(size);
+    if(!maskValue) {
+        spdlog::error("Failed to get mask for operation size");
+        return std::unexpected(ExecuteError::INVALID_OPERATION_SIZE);        
+    }
+
+    setConditionCodes(value & maskValue.value(), size);
+
+    return {};
 }
 
 std::expected<void, ExecuteError> TST_executor::execute(const AddressWithPostincrementModeData& data, OperationSize size)
@@ -153,18 +205,18 @@ std::expected<void, ExecuteError> TST_executor::execute(const ImmediateModeData&
 
 void TST_executor::setConditionCodes(uint32_t value, OperationSize size)
 {
-    registers_->sr.carry = false;
-    registers_->sr.overflow = false;
+    registers_->SR().carry = false;
+    registers_->SR().overflow = false;
 
     if (size == OperationSize::BYTE) {
-        registers_->sr.negative = (value & BYTE_SIGN_BIT_CHECK_MASK) != 0;
+        registers_->SR().negative = (value & BYTE_SIGN_BIT_CHECK_MASK) != 0;
     } else if (size == OperationSize::WORD) {
-        registers_->sr.negative = (value & WORD_SIGN_BIT_CHECK_MASK) != 0;
+        registers_->SR().negative = (value & WORD_SIGN_BIT_CHECK_MASK) != 0;
     } else {
-        registers_->sr.negative = (value & LONG_SIGN_BIT_CHECK_MASK) != 0;
+        registers_->SR().negative = (value & LONG_SIGN_BIT_CHECK_MASK) != 0;
     }
 
-    registers_->sr.zero = value == 0;
+    registers_->SR().zero = value == 0;
 
 }
 

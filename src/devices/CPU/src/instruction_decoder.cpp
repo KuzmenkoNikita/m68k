@@ -36,7 +36,7 @@ void InstructionDecoder::initDecoders()
         decoders_.emplace_back(std::nullopt);
     }
 
-    //decoders_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<decoders_::TSTDecoder>(bus_);
+    decoders_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<decoders_::TSTDecoder>(bus_);
 }
 
 

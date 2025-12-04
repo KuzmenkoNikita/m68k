@@ -12,22 +12,22 @@ CPU::CPU(std::shared_ptr<DataExchange::MemoryInterface> bus) :  bus_(std::move(b
 
 void CPU::reset()
 {
-    regs_.sr.supervisorOrUserState = true;
-    regs_.sr.interruptMask = 0b111; //NOLINT
+    regs_.SR().supervisorOrUserState = true;
+    regs_.SR().interruptMask = 0b111; //NOLINT
     
     auto readResult = read32(0); //NOLINT
     if (!readResult) {
         throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
     }
 
-    regs_.ssp = readResult->data;
+    regs_.SSP() = readResult->data;
 
     readResult = read32(4); //NOLINT
     if (!readResult) {
         throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
     }
 
-    regs_.pc = readResult->data;
+    regs_.PC() = readResult->data;
 }
 
 std::expected<CPU::MemoryAccessResult, DataExchange::MemoryAccessError> CPU::read32(uint32_t address)
@@ -50,7 +50,7 @@ std::expected<CPU::MemoryAccessResult, DataExchange::MemoryAccessError> CPU::rea
 
 void CPU::executeNextInstruction()
 {
-    auto decodeResult = instructionDecoder_->decode(regs_.pc);
+    auto decodeResult = instructionDecoder_->decode(regs_.PC());
     int a = 0;
 }
 
