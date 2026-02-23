@@ -1,7 +1,8 @@
 #include "cpu/cpu.h"
-#include "cpu/internal/registers.h"
-#include "cpu/internal/instruction_executor/executors/TST_executor.h"
 #include "cpu/internal/instruction_decoder/instruction_decoder.h"
+#include "cpu/internal/instruction_executor/executors/TST_executor.h"
+#include "cpu/internal/registers.h"
+#include <bus_helper/bus_helper.h>
 
 namespace m68k {
 
@@ -9,27 +10,27 @@ CPU::CPU(std::shared_ptr<DataExchange::MemoryInterface> bus) :  bus_(std::move(b
                                                                 regs_{},
                                                                 instructionDecoder_(std::make_unique<InstructionDecoder>(bus_))
 {
-
+    initExecutors();
 }
 
 void CPU::reset()
 {
-    //regs_.SR().supervisorOrUserState = true;
-    //regs_.SR().interruptMask = 0b111; //NOLINT
-    //
-    //auto readResult = read32(0); //NOLINT
-    //if (!readResult) {
-    //    throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
-    //}
-//
-    //regs_.SSP() = readResult->data;
-//
-    //readResult = read32(4); //NOLINT
-    //if (!readResult) {
-    //    throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
-    //}
-//
-    //regs_.PC() = readResult->data;
+    regs_.SR().supervisorOrUserState = true;
+    regs_.SR().interruptMask = 0b111; //NOLINT
+    
+    auto readResult = m68k::busHelper::read<uint32_t>(*bus_, 0);
+    if(!readResult){
+        throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
+    }
+
+    regs_.SSP() = readResult->data;
+
+    readResult = m68k::busHelper::read<uint32_t>(*bus_, 4);
+    if(!readResult){
+        throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
+    }
+
+    regs_.PC() = readResult->data;
 }
 
 void CPU::initExecutors()

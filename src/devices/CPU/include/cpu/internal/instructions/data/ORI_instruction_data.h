@@ -1,6 +1,6 @@
 #pragma once
-#include <cpu/internal/instructions/instruction_params.h>
 #include <cpu/internal/instructions/data/addressing_mode_instruction_data.h>
+#include <cpu/internal/instructions/instruction_params.h>
 #include <variant>
 
 namespace m68k::InstructionData {

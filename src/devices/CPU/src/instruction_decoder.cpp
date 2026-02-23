@@ -1,7 +1,7 @@
+#include <bus_helper/bus_helper.h>
 #include <instruction_decoder/decoders/tst_decoder.h>
 #include <instruction_decoder/instruction_decoder.h>
 #include <instructions/instruction_params.h>
-#include <bus_helper/bus_helper.h>
 #include <memory>
 #include <optional>
 
