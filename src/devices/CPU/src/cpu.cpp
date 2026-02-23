@@ -1,5 +1,7 @@
 #include "cpu/cpu.h"
 #include "cpu/internal/registers.h"
+#include "cpu/internal/instruction_executor/executors/TST_executor.h"
+#include "cpu/internal/instruction_decoder/instruction_decoder.h"
 
 namespace m68k {
 
@@ -12,46 +14,54 @@ CPU::CPU(std::shared_ptr<DataExchange::MemoryInterface> bus) :  bus_(std::move(b
 
 void CPU::reset()
 {
-    regs_.SR().supervisorOrUserState = true;
-    regs_.SR().interruptMask = 0b111; //NOLINT
-    
-    auto readResult = read32(0); //NOLINT
-    if (!readResult) {
-        throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
-    }
-
-    regs_.SSP() = readResult->data;
-
-    readResult = read32(4); //NOLINT
-    if (!readResult) {
-        throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
-    }
-
-    regs_.PC() = readResult->data;
+    //regs_.SR().supervisorOrUserState = true;
+    //regs_.SR().interruptMask = 0b111; //NOLINT
+    //
+    //auto readResult = read32(0); //NOLINT
+    //if (!readResult) {
+    //    throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
+    //}
+//
+    //regs_.SSP() = readResult->data;
+//
+    //readResult = read32(4); //NOLINT
+    //if (!readResult) {
+    //    throw std::runtime_error("Failed to read initial PC from bus during CPU reset.");
+    //}
+//
+    //regs_.PC() = readResult->data;
 }
 
-std::expected<CPU::MemoryAccessResult, DataExchange::MemoryAccessError> CPU::read32(uint32_t address)
+void CPU::initExecutors()
 {
-    auto highResult = bus_->read16(address);
-    if (!highResult) {
-        return std::unexpected(highResult.error());
+    executors_.reserve(static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT));
+    for(auto i = 0; i < static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT); ++i) {
+        executors_.emplace_back(std::nullopt);
     }
 
-    auto lowResult = bus_->read16(address + 2);
-    if (!lowResult) {
-        return std::unexpected(lowResult.error());
-    }
-
-    return CPU::MemoryAccessResult{
-        .data = (static_cast<uint32_t>(highResult->data) << 16U) | static_cast<uint32_t>(lowResult->data),
-        .waitCycles = highResult->waitCycles + lowResult->waitCycles
-    };
+    executors_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<executors_::TST_executor>(bus_, std::make_shared<m68k_::Registers>(regs_));
 }
+
 
 void CPU::executeNextInstruction()
 {
     auto decodeResult = instructionDecoder_->decode(regs_.PC());
-    int a = 0;
+    if(!decodeResult) {
+        throw std::runtime_error("Failed to decode instruction at PC: " + std::to_string(regs_.PC()));
+    }
+
+    const auto& instruction = decodeResult->instruction;
+    auto& executorOpt = executors_.at(static_cast<size_t>(instruction.type()));
+    if(!executorOpt.has_value()) {
+        throw std::runtime_error("No executor for instruction at PC: " + std::to_string(regs_.PC()));
+    }
+
+    auto executeResult = executorOpt.value()->execute(instruction);
+}
+
+m68k_::Registers& CPU::registers()
+{
+    return regs_;
 }
 
 } // namespace m68k

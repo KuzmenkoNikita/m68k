@@ -31,7 +31,7 @@ public:
     ~Bus() override = default;
 
     [[nodiscard]] std::expected<MemoryAccessResult, MemoryAccessError> read16(uint32_t address) const override;
-    [[nodiscard]] std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) const override;
+    [[nodiscard]] std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) override;
     bool mapDevice(DeviceParams deviceParams);
 
 private:

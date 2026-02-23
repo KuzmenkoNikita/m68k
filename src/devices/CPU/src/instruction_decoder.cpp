@@ -1,6 +1,7 @@
 #include <instruction_decoder/decoders/tst_decoder.h>
 #include <instruction_decoder/instruction_decoder.h>
 #include <instructions/instruction_params.h>
+#include <bus_helper/bus_helper.h>
 #include <memory>
 #include <optional>
 
@@ -15,7 +16,7 @@ InstructionDecoder::InstructionDecoder(std::shared_ptr<DataExchange::MemoryInter
 
 std::expected<DecodeResult, DecodeError> InstructionDecoder::decode(uint32_t pc) //NOLINT(*-identifier-length)
 {
-    auto readResult = bus_->read16(pc);
+    const auto readResult = m68k::busHelper::read<uint16_t>(*bus_, pc);
     if(!readResult){
         return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
     }

@@ -23,7 +23,7 @@ std::expected<MemoryAccessResult, MemoryAccessError> Bus::read16(uint32_t addres
     };
 }
 
-std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t value) const 
+std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t value)  
 {
     const uint32_t alignedAddr = address & ~1U;
 

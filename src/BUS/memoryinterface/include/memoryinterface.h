@@ -23,7 +23,7 @@ public:
     MemoryInterface &operator=(MemoryInterface &&) = default;
 
     [[nodiscard]] virtual std::expected<MemoryAccessResult, MemoryAccessError> read16(uint32_t address) const = 0;
-    [[nodiscard]] virtual std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) const = 0;
+    [[nodiscard]] virtual std::expected<void, MemoryAccessError> write16(uint32_t address, uint16_t value) = 0;
     virtual ~MemoryInterface() = default;
 };
 

@@ -18,7 +18,6 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_type_decoder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/instruction_factory.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${DECODERS_SOURCES} ${EXECUTORS_SOURCES})

@@ -1,6 +1,6 @@
-#include <expected>
 #include <gtest/gtest.h>
 #include <cpu/internal/bus_helper/bus_helper.h>
+#include <expected>
 #include <mock_bus.h>
 
 
