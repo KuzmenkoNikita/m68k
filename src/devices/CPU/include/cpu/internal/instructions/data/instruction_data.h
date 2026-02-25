@@ -3,6 +3,8 @@
 #include <cpu/internal/instructions/data/ANDI_instruction_data.h>
 #include <cpu/internal/instructions/data/ANDI_to_CCR_instruction_data.h>
 #include <cpu/internal/instructions/data/ANDI_to_SR_instruction_data.h>
+#include <cpu/internal/instructions/data/CMPI_instruction_data.h>
+#include <cpu/internal/instructions/data/EORI_instruction_data.h>
 #include <cpu/internal/instructions/data/EORI_to_CCR_instruction_data.h>
 #include <cpu/internal/instructions/data/EORI_to_SR_instruction_data.h>
 #include <cpu/internal/instructions/data/ORI_instruction_data.h>
@@ -10,8 +12,6 @@
 #include <cpu/internal/instructions/data/ORI_to_SR_instruction_data.h>
 #include <cpu/internal/instructions/data/SUBI_instruction_data.h>
 #include <cpu/internal/instructions/data/TST_instruction_data.h>
-#include <cpu/internal/instructions/data/EORI_instruction_data.h>
-#include <cpu/internal/instructions/data/CMPI_instruction_data.h>
 
 namespace m68k::InstructionData {
 
