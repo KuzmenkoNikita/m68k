@@ -25,6 +25,26 @@ enum class OperationSize : uint8_t {
     LONG
 };
 
+enum class Condition : uint8_t {
+
+    CARRY_CLEAR,
+    CARRY_SET,
+    EQUAL,
+    FALSE,
+    GREATER_OR_EQUAL,
+    GREATER_THAN,
+    HIGH,
+    LESS_OR_EQUAL,
+    LOW_OR_SAME,
+    LESS_THAN,
+    MINUS,
+    NOT_EQUAL,
+    PLUS,
+    TRUE,
+    OVERFLOW_CLEAR,
+    OVERFLOW_SET
+};
+
 enum class InstructionType : uint8_t {
     ORI_to_CCR,
     ORI_to_SR,
