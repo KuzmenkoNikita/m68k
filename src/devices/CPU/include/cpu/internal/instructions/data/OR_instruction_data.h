@@ -8,13 +8,8 @@ namespace m68k::InstructionData {
 
 struct OR_InstructionData {
 
-    enum class Opmode : uint8_t {
-        DESTINATION_DN,
-        DESTINATION_EA
-    };
-
+    DestinationOperandType destOperandType;
     OperationSize size;
-    Opmode mode;
     uint8_t dataRegisterNumber;
 
     std::variant<DataRegisterModeData,

@@ -45,6 +45,11 @@ enum class Condition : uint8_t {
     OVERFLOW_SET
 };
 
+enum class DestinationOperandType : uint8_t {
+    DESTINATION_DN,
+    DESTINATION_EA
+};
+
 enum class InstructionType : uint8_t {
     ORI_to_CCR,
     ORI_to_SR,
