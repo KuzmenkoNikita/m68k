@@ -22,7 +22,7 @@ struct ASd_InstructionData {
 
     struct MemoryShiftData {
 
-        std::variant<AddressRegisterModeData,
+        std::variant<AddressModeData,
                     AddressWithPostincrementModeData,
                     AddressWithPredecrementModeData,
                     AddressWithDisplacementModeData,

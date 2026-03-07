@@ -5,22 +5,22 @@
 
 namespace m68k::InstructionData {
 
-struct LSd_InstructionData {
+struct ROXd_InstructionData {
 
-    struct RegisterShiftData {
+    struct RegisterRotateData {
 
-        enum class ShiftMode : uint8_t{
+        enum class RotateMode : uint8_t{
             IMMEDIATE,
             REGISTER
         };
 
         uint8_t countOrRegister;
         OperationSize size;
-        uint8_t dataRegisterToBeShifted;
-        ShiftMode shiftMode;
+        uint8_t dataRegisterToBeRotated;
+        RotateMode shiftMode;
     };
 
-    struct MemoryShiftData {
+    struct MemoryRotateData {
 
         std::variant<AddressModeData,
                     AddressWithPostincrementModeData,
@@ -32,7 +32,7 @@ struct LSd_InstructionData {
     };
 
     Direction direction;
-    std::variant<RegisterShiftData, MemoryShiftData> shiftData;
+    std::variant<RegisterRotateData, MemoryRotateData> shiftData;
 }; 
 
 
