@@ -19,6 +19,11 @@ enum class AddressingMode : uint8_t {
     IMMEDIATE
 };
 
+enum class Direction : uint8_t {
+    RIGHT,
+    LEFT
+};
+
 enum class OperationSize : uint8_t {
     BYTE,
     WORD,
