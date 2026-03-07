@@ -4,7 +4,7 @@
 
 namespace m68k::InstructionData {
 
-struct SBCD_InstructionData {
+struct SUBX_InstructionData {
     OperandAddressingMode operandAddressingMode;
     uint8_t destinationRegister;
     uint8_t sourceRegister;

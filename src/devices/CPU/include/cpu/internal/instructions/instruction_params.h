@@ -50,6 +50,11 @@ enum class DestinationOperandType : uint8_t {
     DESTINATION_EA
 };
 
+enum class OperandAddressingMode : uint8_t {
+    DATA_REG_TO_DATA_REG,
+    MEM_TO_MEM
+};
+
 enum class InstructionType : uint8_t {
     ORI_to_CCR,
     ORI_to_SR,
