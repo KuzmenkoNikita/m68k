@@ -5,7 +5,7 @@
 
 namespace m68k::InstructionData {
 
-struct ASd_InstructionData {
+struct LSd_InstructionData {
 
     struct RegisterShiftData {
 
