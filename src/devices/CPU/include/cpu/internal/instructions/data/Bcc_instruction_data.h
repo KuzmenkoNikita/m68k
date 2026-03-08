@@ -5,7 +5,7 @@
 
 namespace m68k::InstructionData {
 
-struct BRA_InstructionData {
+struct Bcc_InstructionData {
     Condition condition;
     std::variant<int8_t, int16_t, int32_t>  displacement;
 }; 

@@ -128,7 +128,7 @@ std::expected<void, ExecuteError> TST_executor::execute(const Instruction& instr
         return std::unexpected(ExecuteError::INVALID_INSTRUCTION);
     }
 
-    const auto instructionData = instruction.data<InstructionData::TSTInstructionData>();
+    const auto instructionData = instruction.data<InstructionData::TST_InstructionData>();
 
     const auto size = instructionData.size;
 

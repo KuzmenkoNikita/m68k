@@ -35,6 +35,43 @@
 #include <cpu/internal/instructions/data/LINK_instruction_data.h>
 #include <cpu/internal/instructions/data/UNLK_instruction_data.h>
 #include <cpu/internal/instructions/data/MOVE_USP_instruction_data.h>
+#include <cpu/internal/instructions/data/STOP_instruction_data.h>
+#include <cpu/internal/instructions/data/JSR_instruction_data.h>
+#include <cpu/internal/instructions/data/JMP_instruction_data.h>
+#include <cpu/internal/instructions/data/MOVEM_instruction_data.h>
+#include <cpu/internal/instructions/data/LEA_instruction_data.h>
+#include <cpu/internal/instructions/data/CHK_instruction_data.h>
+#include <cpu/internal/instructions/data/ADDQ_instruction_data.h>
+#include <cpu/internal/instructions/data/SUBQ_instruction_data.h>
+#include <cpu/internal/instructions/data/Scc_instruction_data.h>
+#include <cpu/internal/instructions/data/DBcc_instruction_data.h>
+#include <cpu/internal/instructions/data/BRA_instruction_data.h>
+#include <cpu/internal/instructions/data/BSR_instruction_data.h>
+#include <cpu/internal/instructions/data/Bcc_instruction_data.h>
+#include <cpu/internal/instructions/data/MOVEQ_instruction_data.h>
+#include <cpu/internal/instructions/data/DIVU_instruction_data.h>
+#include <cpu/internal/instructions/data/DIVS_instruction_data.h>
+#include <cpu/internal/instructions/data/SBCD_instruction_data.h>
+#include <cpu/internal/instructions/data/OR_instruction_data.h>
+#include <cpu/internal/instructions/data/SUB_instruction_data.h>
+#include <cpu/internal/instructions/data/SUBX_instruction_data.h>
+#include <cpu/internal/instructions/data/SUBA_instruction_data.h>
+#include <cpu/internal/instructions/data/EOR_instruction_data.h>
+#include <cpu/internal/instructions/data/CMPM_instruction_data.h>
+#include <cpu/internal/instructions/data/CMP_instruction_data.h>
+#include <cpu/internal/instructions/data/CMPA_instruction_data.h>
+#include <cpu/internal/instructions/data/MULU_instruction_data.h>
+#include <cpu/internal/instructions/data/MULS_instruction_data.h>
+#include <cpu/internal/instructions/data/ABCD_instruction_data.h>
+#include <cpu/internal/instructions/data/EXG_instruction_data.h>
+#include <cpu/internal/instructions/data/AND_instruction_data.h>
+#include <cpu/internal/instructions/data/ADD_instruction_data.h>
+#include <cpu/internal/instructions/data/ADDX_instruction_data.h>
+#include <cpu/internal/instructions/data/ADDA_instruction_data.h>
+#include <cpu/internal/instructions/data/ASd_instruction_data.h>
+#include <cpu/internal/instructions/data/LSd_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXd_instruction_data.h>
+#include <cpu/internal/instructions/data/ROd_instruction_data.h>
 
 namespace m68k::InstructionData {
 
@@ -73,7 +110,44 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             TRAP_InstructionData,
                                             LINK_InstructionData,
                                             UNLK_InstructionData,
-                                            MOVE_USP_InstructionData>;
+                                            MOVE_USP_InstructionData,
+                                            STOP_InstructionData,
+                                            JSR_InstructionData,
+                                            JMP_InstructionData,
+                                            MOVEM_InstructionData,
+                                            LEA_InstructionData,
+                                            CHK_InstructionData,
+                                            ADDQ_InstructionData,
+                                            SUBQ_InstructionData,
+                                            Scc_InstructionData,
+                                            DBcc_InstructionData,
+                                            BRA_InstructionData,
+                                            BSR_InstructionData,
+                                            Bcc_InstructionData,
+                                            MOVEQ_InstructionData,
+                                            DIVU_InstructionData,
+                                            DIVS_InstructionData,
+                                            SBCD_InstructionData,
+                                            OR_InstructionData,
+                                            SUB_InstructionData,
+                                            SUBX_InstructionData,
+                                            SUBA_InstructionData,
+                                            EOR_InstructionData,
+                                            CMPM_InstructionData,
+                                            CMP_InstructionData,
+                                            CMPA_InstructionData,
+                                            MULU_InstructionData,
+                                            MULS_InstructionData,
+                                            ABCD_InstructionData,
+                                            EXG_InstructionData,
+                                            AND_InstructionData,
+                                            ADD_InstructionData,
+                                            ADDX_InstructionData,
+                                            ADDA_InstructionData,
+                                            ASd_InstructionData,
+                                            LSd_InstructionData,
+                                            ROXd_InstructionData,
+                                            ROd_InstructionData>;
 
 } //namespace m68k::InstructionData
 

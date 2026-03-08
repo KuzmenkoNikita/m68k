@@ -11,7 +11,7 @@ public:
     template <typename DataType>
     const DataType& data() const 
     {
-        if constexpr (std::is_same_v<DataType, InstructionData::TSTInstructionData>) {
+        if constexpr (std::is_same_v<DataType, InstructionData::TST_InstructionData>) {
             return std::get<DataType>(data_);
         }
     }
@@ -22,7 +22,7 @@ public:
     }
 
     //NOLINTBEGIN (*-explicit-constructor)
-    Instruction(const InstructionData::TSTInstructionData& data);
+    Instruction(const InstructionData::TST_InstructionData& data);
     Instruction(const InstructionData::ORI_to_CCR_InstructionData& data);
     Instruction(const InstructionData::ORI_to_SR_InstructionData& data);
     Instruction(const InstructionData::ORI_InstructionData& data);
