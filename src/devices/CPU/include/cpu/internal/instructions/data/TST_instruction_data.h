@@ -6,7 +6,7 @@
 namespace m68k::InstructionData {
 
 
-struct TSTInstructionData {
+struct TST_InstructionData {
 
     OperationSize size;
 
