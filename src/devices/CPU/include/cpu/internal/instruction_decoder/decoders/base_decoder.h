@@ -8,7 +8,6 @@ class IDecoder {
 public:
 
     virtual ~IDecoder() = default;
-
     [[nodiscard]] virtual std::expected<DecodeResult, DecodeError> decode(uint16_t opcodeWord, uint32_t instructionStartAddr) const = 0;
 };
 
