@@ -6,10 +6,6 @@ add_executable(CPUTests
     bus_helpers_tests.cpp
 )
 
-include(FetchContent)
-
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
-FetchContent_MakeAvailable(json)
 
 target_link_libraries(CPUTests
     PRIVATE
@@ -17,7 +13,6 @@ target_link_libraries(CPUTests
     GTest::gtest
     GTest::gtest_main
     GTest::gmock
-    nlohmann_json::nlohmann_json
 )
 
 add_test(NAME CPUTests COMMAND $<TARGET_FILE:CPUTests>)

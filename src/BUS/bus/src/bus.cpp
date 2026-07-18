@@ -34,8 +34,7 @@ std::expected<void, MemoryAccessError> Bus::write16(uint32_t address, uint16_t v
     }
 
     auto& [deviceRef, offset] = deviceOpt.value();
-    deviceRef.get().write16(offset, value); 
-
+    deviceRef.get().write16(offset, value);  
     return {};
 }
 

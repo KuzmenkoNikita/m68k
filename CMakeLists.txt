@@ -18,10 +18,9 @@ add_subdirectory(src/devices/CPU)
 include(FetchContent)
 FetchContent_Declare(
     spdlog
-    URL https://github.com/gabime/spdlog/archive/refs/tags/v1.16.0.zip
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.16.0
 )
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(spdlog)
 
 #-----------------------------------------#
@@ -31,8 +30,8 @@ if(BUILD_TESTS)
     enable_testing() 
     FetchContent_Declare(
         googletest
-        URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
-        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG v1.17.0
     )
 
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
