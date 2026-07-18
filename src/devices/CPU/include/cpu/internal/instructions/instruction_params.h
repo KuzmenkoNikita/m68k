@@ -137,14 +137,10 @@ enum class InstructionType : uint8_t {
     ADD,
     ADDX,
     ADDA,
-    ASL,
-    ASR,
-    LSL,
-    LSR,
-    ROXL,
-    ROXR,
-    ROL,
-    ROR,
+    ASd,
+    LSd,
+    ROXd,
+    ROd,
     INSTRUCTIONS_COUNT
 };
 
