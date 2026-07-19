@@ -7,6 +7,8 @@ set(DECODERS_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ABCD_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ADD_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ADDA_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ADDI_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ADDQ_decoder.cpp
 )
 
 set(SOURCES 

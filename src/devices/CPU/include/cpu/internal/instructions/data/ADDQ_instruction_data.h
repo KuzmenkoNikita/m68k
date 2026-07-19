@@ -12,15 +12,16 @@ struct ADDQ_InstructionData {
 
     uint8_t data;
 
-    std::variant<DataRegisterModeData,
-                AddressRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
 
 };
 

@@ -23,7 +23,6 @@ std::expected<DecodeResult, DecodeError> ADDI_Decoder::decode(uint16_t opcodeWor
 {
     InstructionData::ADDI_InstructionData instructionData{};
 
-
     const auto size = (opcodeWord & SIZE_MASK) >> 6U; //NOLINT
 
     switch(size) {
