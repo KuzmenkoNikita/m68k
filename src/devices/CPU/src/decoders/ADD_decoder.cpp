@@ -1,7 +1,7 @@
 #include <expected>
-#include <optional>
 #include <instruction_decoder/decoders/ADD_decoder.h>
 #include <instruction_decoder/decoders/decoders_helpers.h>
+#include <optional>
 
 namespace m68k::decoders_ {
 
@@ -71,7 +71,7 @@ std::expected<DecodeResult, DecodeError> ADD_Decoder::decode(uint16_t opcodeWord
     const uint8_t registerValue = opcodeWord & REGISTER_MASK;
     const uint8_t modeValue = (opcodeWord & MODE_MASK) >> 3U; //NOLINT
 
-    const auto addressingMode = m68k::decoders_::getAddressingMode(modeValue, registerValue);
+    const auto addressingMode = getAddressingMode(modeValue, registerValue);
     if(!addressingMode) {
         return std::unexpected(addressingMode.error());
     }
@@ -83,7 +83,7 @@ std::expected<DecodeResult, DecodeError> ADD_Decoder::decode(uint16_t opcodeWord
         .instructionStartAddr = instructionStartAddr
     };
 
-    const auto addressingModeData = m68k::decoders_::getAddressingModeData(*bus_, getAddressingModeParams);
+    const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);
     if(!addressingModeData) {
         return std::unexpected(addressingModeData.error());
     }

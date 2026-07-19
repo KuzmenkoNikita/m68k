@@ -4,8 +4,9 @@
 #include <cpu/internal/instructions/instruction_params.h>
 #include <expected>
 #include <memoryinterface.h>
-#include <variant>
 #include <optional>
+#include <variant>
+
 
 namespace m68k::decoders_ {
 
