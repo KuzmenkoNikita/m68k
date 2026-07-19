@@ -5,8 +5,21 @@
 #include <expected>
 #include <memoryinterface.h>
 #include <variant>
+#include <optional>
 
 namespace m68k::decoders_ {
+
+template <typename T, typename Variant>
+struct is_type_in_variant;
+
+template <typename T, typename... Ts>
+struct is_type_in_variant<T, std::variant<Ts...>> {
+    static constexpr bool value = (std::is_same_v<T, Ts> || ...);
+};
+
+
+template <typename T, typename Variant>
+inline constexpr bool is_type_in_variant_v = is_type_in_variant<T, Variant>::value;
 
 
 using addressingModesDataVariant =  std::variant<DataRegisterModeData,
@@ -21,6 +34,19 @@ using addressingModesDataVariant =  std::variant<DataRegisterModeData,
                                                 AbsoluteShortModeData,
                                                 AbsoluteLongModeData,
                                                 ImmediateModeData>;
+
+template <typename AnyAddressingModeData>
+std::optional<AnyAddressingModeData> convertAddressingModeData(const addressingModesDataVariant& allModes) {
+    return std::visit([](const auto& item) -> std::optional<AnyAddressingModeData> {
+        using T = std::decay_t<decltype(item)>;
+        
+        if constexpr (is_type_in_variant_v<T, AnyAddressingModeData>) {
+            return item; 
+        } else {
+            return std::nullopt; 
+        }
+    }, allModes);
+}
 
 struct AddressingModeDataResult {
     addressingModesDataVariant data;

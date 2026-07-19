@@ -4,13 +4,8 @@ set(CMAKE_CXX_STANDARD 23)
 
 set(DECODERS_SOURCES 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/decoders_helpers.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/TST_decoder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ORI_to_CCR_decoder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ORI_decoder.cpp
-)
-
-set(EXECUTORS_SOURCES 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/executors/TST_executor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ABCD_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ADD_decoder.cpp
 )
 
 set(SOURCES 

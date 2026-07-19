@@ -26,12 +26,12 @@ std::expected<DecodeResult, DecodeError> InstructionDecoder::decode(uint32_t pc)
         return std::unexpected(DecodeError::INVALID_INSTRUCTION);
     }
 
+    
     return decoders_.at(static_cast<size_t>(instructionTypeResult.value())).value()->decode(readResult.value().data, pc);
-
 }
 
 void InstructionDecoder::initDecoders()
-{
+{ 
     decoders_.reserve(static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT));
     for(auto i = 0; i < static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT); ++i) {
         decoders_.emplace_back(std::nullopt);
