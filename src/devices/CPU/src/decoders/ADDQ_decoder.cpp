@@ -2,7 +2,6 @@
 #include <expected>
 #include <instruction_decoder/decoders/ADDQ_decoder.h>
 #include <instruction_decoder/decoders/decoders_helpers.h>
-#include <optional>
 
 namespace m68k::decoders_ {
 
