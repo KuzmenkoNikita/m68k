@@ -12,14 +12,15 @@ struct ANDI_InstructionData {
 
     std::variant<uint8_t, uint16_t, uint32_t> immediateData;
     
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
 
 };
 
