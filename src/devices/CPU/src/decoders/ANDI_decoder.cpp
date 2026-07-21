@@ -83,7 +83,7 @@ std::expected<DecodeResult, DecodeError> ANDI_Decoder::decode(uint16_t opcodeWor
             }
 
             instructionData.immediateData = readResult->data;
-            immediateBytesReaded = 1;
+            immediateBytesReaded = 2;
             break;
         }
 
