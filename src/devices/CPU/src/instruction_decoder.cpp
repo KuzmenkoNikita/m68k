@@ -1,5 +1,4 @@
 #include <bus_helper/bus_helper.h>
-#include <instruction_decoder/decoders/tst_decoder.h>
 #include <instruction_decoder/instruction_decoder.h>
 #include <instructions/instruction_params.h>
 #include <memory>
@@ -37,7 +36,7 @@ void InstructionDecoder::initDecoders()
         decoders_.emplace_back(std::nullopt);
     }
 
-    decoders_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<decoders_::TSTDecoder>(bus_);
+    //decoders_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<decoders_::TSTDecoder>(bus_);
 }
 
 

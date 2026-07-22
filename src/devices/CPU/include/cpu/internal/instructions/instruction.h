@@ -32,7 +32,10 @@ public:
     Instruction(const InstructionData::ANDI_InstructionData& data);
     Instruction(const InstructionData::ANDI_to_CCR_InstructionData& data);
     Instruction(const InstructionData::ANDI_to_SR_InstructionData& data);
-    Instruction(const InstructionData::ASd_InstructionData& data);
+    Instruction(const InstructionData::ASL_Memory_InstructionData& data);
+    Instruction(const InstructionData::ASL_Register_InstructionData& data);
+    Instruction(const InstructionData::ASR_Memory_InstructionData& data);
+    Instruction(const InstructionData::ASR_Register_InstructionData& data);
     Instruction(const InstructionData::Bcc_InstructionData& data);
     Instruction(const InstructionData::BCHG_InstructionData& data);
     Instruction(const InstructionData::BCLR_InstructionData& data);

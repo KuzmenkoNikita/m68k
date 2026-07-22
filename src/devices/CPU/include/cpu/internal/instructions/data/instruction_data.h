@@ -9,7 +9,10 @@
 #include <cpu/internal/instructions/data/ANDI_to_CCR_instruction_data.h>
 #include <cpu/internal/instructions/data/ANDI_to_SR_instruction_data.h>
 #include <cpu/internal/instructions/data/AND_instruction_data.h>
-#include <cpu/internal/instructions/data/ASd_instruction_data.h>
+#include <cpu/internal/instructions/data/ASL_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ASL_register_instruction_data.h>
+#include <cpu/internal/instructions/data/ASR_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ASR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/BCHG_instruction_data.h>
 #include <cpu/internal/instructions/data/BCLR_instruction_data.h>
 #include <cpu/internal/instructions/data/BRA_instruction_data.h>
@@ -144,7 +147,10 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             ADD_InstructionData,
                                             ADDX_InstructionData,
                                             ADDA_InstructionData,
-                                            ASd_InstructionData,
+                                            ASL_Memory_InstructionData,
+                                            ASL_Register_InstructionData,
+                                            ASR_Memory_InstructionData,
+                                            ASR_Register_InstructionData,
                                             LSd_InstructionData,
                                             ROXd_InstructionData,
                                             ROd_InstructionData>;
