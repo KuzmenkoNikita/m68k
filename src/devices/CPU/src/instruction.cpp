@@ -72,8 +72,29 @@ Instruction::Instruction(const InstructionData::ANDI_to_SR_InstructionData& data
 
 }
 
-Instruction::Instruction(const InstructionData::ASd_InstructionData& data) :
-    type_(InstructionType::ASd)
+Instruction::Instruction(const InstructionData::ASL_Register_InstructionData& data) :
+    type_(InstructionType::ASL_REG)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ASL_Memory_InstructionData& data) :
+    type_(InstructionType::ASL_MEMORY)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ASR_Register_InstructionData& data) :
+    type_(InstructionType::ASR_REG)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ASR_Memory_InstructionData& data) :
+    type_(InstructionType::ASR_MEMORY)
     , data_(data)
 {
 
