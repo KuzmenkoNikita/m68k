@@ -4,4 +4,4 @@ Diagnostics:
   ClangTidy:
     Add: ['*']
     Remove: ['fuchsia-*', 'llvmlibc-*', 'google-objc-*', 'altera-*', '*-use-trailing-return-type', '*-easily-swappable-parameters',
-            '*-redundant-access-specifiers']
+            '*-redundant-access-specifiers', '*-magic-numbers']
