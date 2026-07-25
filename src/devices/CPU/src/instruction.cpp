@@ -163,8 +163,15 @@ Instruction::Instruction(const InstructionData::BSR_InstructionData& data) :
 
 }
 
-Instruction::Instruction(const InstructionData::BTST_InstructionData& data) :
-    type_(InstructionType::BTST)
+Instruction::Instruction(const InstructionData::BTST_Immediate_InstructionData& data) :
+    type_(InstructionType::BTST_IMMEDIATE)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::BTST_Register_InstructionData& data) :
+    type_(InstructionType::BTST_REGISTER)
     , data_(data)
 {
 

@@ -45,7 +45,8 @@ public:
     Instruction(const InstructionData::BSET_Immediate_InstructionData& data);
     Instruction(const InstructionData::BSET_Register_InstructionData& data);
     Instruction(const InstructionData::BSR_InstructionData& data);
-    Instruction(const InstructionData::BTST_InstructionData& data);
+    Instruction(const InstructionData::BTST_Immediate_InstructionData& data);
+    Instruction(const InstructionData::BTST_Register_InstructionData& data);
     Instruction(const InstructionData::CHK_InstructionData& data);
     Instruction(const InstructionData::CLR_InstructionData& data);
     Instruction(const InstructionData::CMP_InstructionData& data);
