@@ -142,8 +142,15 @@ Instruction::Instruction(const InstructionData::BRA_InstructionData& data) :
 
 }
 
-Instruction::Instruction(const InstructionData::BSET_InstructionData& data) :
-    type_(InstructionType::BSET)
+Instruction::Instruction(const InstructionData::BSET_Immediate_InstructionData& data) :
+    type_(InstructionType::BSET_IMMEDIATE)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::BSET_Register_InstructionData& data) :
+    type_(InstructionType::BSET_REGISTER)
     , data_(data)
 {
 
