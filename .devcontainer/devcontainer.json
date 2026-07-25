@@ -12,7 +12,8 @@
         }
     },
     "mounts": [
-        "source=${localWorkspaceFolder},target=/workspace,type=bind"
+        "source=${localWorkspaceFolder},target=/workspace,type=bind",
+        "source=${env:USERPROFILE}\\.ssh,target=/root/.ssh,type=bind"
     ],
     "remoteUser": "root"
 }
