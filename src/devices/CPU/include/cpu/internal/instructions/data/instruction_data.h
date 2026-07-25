@@ -15,7 +15,8 @@
 #include <cpu/internal/instructions/data/ASR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/BCHG_immediate_instruction_data.h>
 #include <cpu/internal/instructions/data/BCHG_register_instruction_data.h>
-#include <cpu/internal/instructions/data/BCLR_instruction_data.h>
+#include <cpu/internal/instructions/data/BCLR_immediate_instruction_data.h>
+#include <cpu/internal/instructions/data/BCLR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/BRA_instruction_data.h>
 #include <cpu/internal/instructions/data/BSET_instruction_data.h>
 #include <cpu/internal/instructions/data/BSR_instruction_data.h>
@@ -94,7 +95,8 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             BTST_InstructionData,
                                             BCHG_Immediate_InstructionData,
                                             BCHG_Register_InstructionData,
-                                            BCLR_InstructionData,
+                                            BCLR_Immediate_InstructionData,
+                                            BCLR_Register_InstructionData,
                                             BSET_InstructionData,
                                             MOVEP_InstructionData,
                                             MOVEA_InstructionData,

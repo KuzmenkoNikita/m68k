@@ -121,8 +121,15 @@ Instruction::Instruction(const InstructionData::BCHG_Register_InstructionData& d
 
 }
 
-Instruction::Instruction(const InstructionData::BCLR_InstructionData& data) :
-    type_(InstructionType::BCLR)
+Instruction::Instruction(const InstructionData::BCLR_Immediate_InstructionData& data) :
+    type_(InstructionType::BCLR_IMMEDIATE)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::BCLR_Register_InstructionData& data) :
+    type_(InstructionType::BCLR_REGISTER)
     , data_(data)
 {
 

@@ -39,7 +39,8 @@ public:
     Instruction(const InstructionData::Bcc_InstructionData& data);
     Instruction(const InstructionData::BCHG_Immediate_InstructionData& data);
     Instruction(const InstructionData::BCHG_Register_InstructionData& data);
-    Instruction(const InstructionData::BCLR_InstructionData& data);
+    Instruction(const InstructionData::BCLR_Immediate_InstructionData& data);
+    Instruction(const InstructionData::BCLR_Register_InstructionData& data);
     Instruction(const InstructionData::BRA_InstructionData& data);
     Instruction(const InstructionData::BSET_InstructionData& data);
     Instruction(const InstructionData::BSR_InstructionData& data);
