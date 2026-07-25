@@ -107,8 +107,15 @@ Instruction::Instruction(const InstructionData::Bcc_InstructionData& data) :
 
 }
 
-Instruction::Instruction(const InstructionData::BCHG_InstructionData& data) :
-    type_(InstructionType::BCHG)
+Instruction::Instruction(const InstructionData::BCHG_Immediate_InstructionData& data) :
+    type_(InstructionType::BCHG_IMMEDIATE)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::BCHG_Register_InstructionData& data) :
+    type_(InstructionType::BCHG_REGISTER)
     , data_(data)
 {
 
