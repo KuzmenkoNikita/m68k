@@ -9,17 +9,18 @@ struct DIVS_InstructionData {
 
     uint8_t dataRegNumber;
 
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData,
-                ImmediateModeData,
-                ProgramCounterWithDisplacementModeData,
-                ProgramCounterWithIndexModeData>  addressingModeData;
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData,
+                                            ImmediateModeData,
+                                            ProgramCounterWithDisplacementModeData,
+                                            ProgramCounterWithIndexModeData>;
+    AddressingModeData addressingModeData;
 
 };
 
