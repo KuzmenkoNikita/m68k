@@ -22,27 +22,12 @@ std::expected<DecodeResult, DecodeError> Bcc_Decoder::decode(uint16_t opcodeWord
 {
     InstructionData::Bcc_InstructionData instructionData{};
 
-    const auto conditionValue = (opcodeWord & CONDITION_MASK) >> 8U; //NOLINT
-
-    switch(conditionValue) {
-        case 0b0000: instructionData.condition = Condition::TRUE; break;
-        case 0b0001: instructionData.condition = Condition::FALSE; break;
-        case 0b0010: instructionData.condition = Condition::HIGH; break;
-        case 0b0011: instructionData.condition = Condition::LOW_OR_SAME; break;
-        case 0b0100: instructionData.condition = Condition::CARRY_CLEAR; break;
-        case 0b0101: instructionData.condition = Condition::CARRY_SET; break;
-        case 0b0110: instructionData.condition = Condition::NOT_EQUAL; break;
-        case 0b0111: instructionData.condition = Condition::EQUAL; break;
-        case 0b1000: instructionData.condition = Condition::OVERFLOW_CLEAR; break;
-        case 0b1001: instructionData.condition = Condition::OVERFLOW_SET; break;
-        case 0b1010: instructionData.condition = Condition::PLUS; break;
-        case 0b1011: instructionData.condition = Condition::MINUS; break;
-        case 0b1100: instructionData.condition = Condition::GREATER_OR_EQUAL; break;
-        case 0b1101: instructionData.condition = Condition::LESS_THAN; break;
-        case 0b1110: instructionData.condition = Condition::GREATER_THAN; break;
-        case 0b1111: instructionData.condition = Condition::LESS_OR_EQUAL; break;
-        default: return std::unexpected(DecodeError::INVALID_INSTRUCTION);
+    const auto condition = getCondition((opcodeWord & CONDITION_MASK) >> 8U); //NOLINT
+    if(!condition) {
+        return std::unexpected(condition.error());
     }
+
+    instructionData.condition = *condition;
 
     const auto displacement8bitValue = (opcodeWord & DISPLACEMENT_MASK);
 

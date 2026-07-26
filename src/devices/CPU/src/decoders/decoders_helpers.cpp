@@ -290,4 +290,27 @@ std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const
     }
 }
 
+std::expected<Condition, DecodeError> getCondition(uint8_t value)
+{
+    switch(value) {
+        case 0b0000: return Condition::TRUE;
+        case 0b0001: return Condition::FALSE;
+        case 0b0010: return Condition::HIGH; 
+        case 0b0011: return Condition::LOW_OR_SAME; 
+        case 0b0100: return Condition::CARRY_CLEAR; 
+        case 0b0101: return Condition::CARRY_SET; 
+        case 0b0110: return Condition::NOT_EQUAL; 
+        case 0b0111: return Condition::EQUAL; 
+        case 0b1000: return Condition::OVERFLOW_CLEAR; 
+        case 0b1001: return Condition::OVERFLOW_SET; 
+        case 0b1010: return Condition::PLUS; 
+        case 0b1011: return Condition::MINUS; 
+        case 0b1100: return Condition::GREATER_OR_EQUAL; 
+        case 0b1101: return Condition::LESS_THAN; 
+        case 0b1110: return Condition::GREATER_THAN; 
+        case 0b1111: return Condition::LESS_OR_EQUAL; 
+        default: return std::unexpected(DecodeError::INVALID_CONDITION);
+    }    
+}
+
 } //namespace m68k::decoders_ 

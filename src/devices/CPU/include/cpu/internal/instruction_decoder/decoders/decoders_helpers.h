@@ -63,6 +63,7 @@ struct GetAddressingModeDataParams {
 
 std::expected<AddressingMode, DecodeError> getAddressingMode(uint8_t modeValue,  uint8_t registerValue);
 std::expected<AddressingModeDataResult, DecodeError> getAddressingModeData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params);
+std::expected<Condition, DecodeError> getCondition(uint8_t value);
 
 
 
