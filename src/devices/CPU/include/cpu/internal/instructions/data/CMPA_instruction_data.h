@@ -10,18 +10,19 @@ struct CMPA_InstructionData {
     OperationSize size;
     uint8_t addressRegisterNumber;
 
-    std::variant<DataRegisterModeData,
-            AddressRegisterModeData,
-            AddressModeData,
-            AddressWithPostincrementModeData,
-            AddressWithPredecrementModeData,
-            AddressWithDisplacementModeData,
-            AddressWithIndexModeData,
-            AbsoluteShortModeData,
-            AbsoluteLongModeData,
-            ImmediateModeData,
-            ProgramCounterWithDisplacementModeData,
-            ProgramCounterWithIndexModeData>  addressingModeData;
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData,
+                                            ImmediateModeData,
+                                            ProgramCounterWithDisplacementModeData,
+                                            ProgramCounterWithIndexModeData>;
+    AddressingModeData addressingModeData;
 };
 
 
