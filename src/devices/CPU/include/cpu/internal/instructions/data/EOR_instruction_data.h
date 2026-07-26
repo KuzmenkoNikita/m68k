@@ -11,14 +11,15 @@ struct EOR_InstructionData {
     OperationSize size;
     uint8_t dataRegisterNumber;
 
-    std::variant<DataRegisterModeData,
-            AddressModeData,
-            AddressWithPostincrementModeData,
-            AddressWithPredecrementModeData,
-            AddressWithDisplacementModeData,
-            AddressWithIndexModeData,
-            AbsoluteShortModeData,
-            AbsoluteLongModeData> addressingModeData;
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
 };
 
 
