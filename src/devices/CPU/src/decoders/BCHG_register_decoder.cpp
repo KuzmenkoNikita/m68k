@@ -38,7 +38,7 @@ std::expected<DecodeResult, DecodeError> BCHG_Register_Decoder::decode(uint16_t 
         .opSize = OperationSize::WORD,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord))
     };
 
     const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);

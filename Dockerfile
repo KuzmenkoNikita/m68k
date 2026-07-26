@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     cmake \
     gdb \
     git \
+    gcc-m68k-linux-gnu \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace

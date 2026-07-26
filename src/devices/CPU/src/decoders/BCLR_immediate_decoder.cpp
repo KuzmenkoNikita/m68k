@@ -21,6 +21,13 @@ std::expected<DecodeResult, DecodeError> BCLR_Immediate_Decoder::decode(uint16_t
 {
     InstructionData::BCLR_Immediate_InstructionData instructionData{};
 
+    const auto readResult = m68k::busHelper::read<uint8_t>(*bus_, instructionStartAddr + sizeof(opcodeWord));
+    if(!readResult) {
+        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
+    }
+
+    instructionData.bitNumber = readResult->data;
+
     const uint8_t registerValue = opcodeWord & REGISTER_MASK;
     const uint8_t modeValue = (opcodeWord & MODE_MASK) >> 3U; //NOLINT
 
@@ -33,7 +40,7 @@ std::expected<DecodeResult, DecodeError> BCLR_Immediate_Decoder::decode(uint16_t
         .opSize = OperationSize::WORD,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord) + 2)
     };
 
     const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);
@@ -47,15 +54,6 @@ std::expected<DecodeResult, DecodeError> BCLR_Immediate_Decoder::decode(uint16_t
     }
 
     instructionData.addressingModeData = *convertedAddressingModeData;
-
-    const auto immediateValueAddr = instructionStartAddr + addressingModeData->bytesReaded;
-
-    const auto readResult = m68k::busHelper::read<uint8_t>(*bus_, immediateValueAddr);
-    if(!readResult) {
-        return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
-    }
-
-    instructionData.bitNumber = readResult->data;
 
     return DecodeResult {
         .instruction = instructionData,

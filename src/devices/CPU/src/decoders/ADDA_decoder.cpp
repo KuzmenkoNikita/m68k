@@ -1,7 +1,6 @@
 #include <expected>
 #include <instruction_decoder/decoders/ADDA_decoder.h>
 #include <instruction_decoder/decoders/decoders_helpers.h>
-#include <optional>
 
 namespace m68k::decoders_ {
 
@@ -45,7 +44,7 @@ std::expected<DecodeResult, DecodeError> ADDA_Decoder::decode(uint16_t opcodeWor
         .opSize = instructionData.size,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord))
     };
 
     const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);

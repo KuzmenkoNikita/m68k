@@ -45,7 +45,7 @@ std::expected<DecodeResult, DecodeError> CMPA_Decoder::decode(uint16_t opcodeWor
         .opSize = OperationSize::WORD,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord))
     };
 
     const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);

@@ -80,7 +80,7 @@ std::expected<DecodeResult, DecodeError> ADD_Decoder::decode(uint16_t opcodeWord
         .opSize = instructionData.size,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord))
     };
 
     const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);

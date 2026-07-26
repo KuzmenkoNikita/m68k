@@ -1,46 +1,34 @@
 #include <bus_helper/bus_helper.h>
 #include <expected>
-#include <instruction_decoder/decoders/ANDI_decoder.h>
+#include <instruction_decoder/decoders/CMPI_decoder.h>
 #include <instruction_decoder/decoders/decoders_helpers.h>
 
 namespace m68k::decoders_ {
 
 namespace {
-    
-constexpr uint16_t SIZE_MASK = 0x00C0U;
-constexpr uint16_t MODE_MASK = 0x0038U;
-constexpr uint16_t REGISTER_MASK = 0x0007U;
+
+constexpr uint16_t MODE_MASK = 0b0011'1000U;
+constexpr uint16_t REGISTER_MASK = 0b111U;
+constexpr uint16_t SIZE_MASK = 0b1100'0000U;
+
 
 } //namespace
 
-ANDI_Decoder::ANDI_Decoder(std::shared_ptr<DataExchange::MemoryInterface> bus) : bus_(std::move(bus))
+CMPI_Decoder::CMPI_Decoder(std::shared_ptr<DataExchange::MemoryInterface> bus) : bus_(std::move(bus))
 {
 
 }
 
-std::expected<DecodeResult, DecodeError> ANDI_Decoder::decode(uint16_t opcodeWord, uint32_t instructionStartAddr) const
+std::expected<DecodeResult, DecodeError> CMPI_Decoder::decode(uint16_t opcodeWord, uint32_t instructionStartAddr) const
 {
-    InstructionData::ANDI_InstructionData instructionData{};
+    InstructionData::CMPI_InstructionData instructionData{};
 
     const auto sizeValue = (opcodeWord & SIZE_MASK) >> 6U; //NOLINT
 
     switch(sizeValue) {
-
-        case 0 : {
-            instructionData.size = OperationSize::BYTE; 
-            break;
-        }
-
-        case 1 : {
-            instructionData.size = OperationSize::WORD; 
-            break;
-        }
-
-        case 2 : {
-            instructionData.size = OperationSize::LONG; 
-            break;
-        }
-
+        case 0b00: instructionData.size = OperationSize::BYTE; break; 
+        case 0b01: instructionData.size = OperationSize::WORD; break; 
+        case 0b10: instructionData.size = OperationSize::LONG; break; 
         default: return std::unexpected(DecodeError::INVALID_INSTRUCTION_SIZE);
     }
 
@@ -98,7 +86,6 @@ std::expected<DecodeResult, DecodeError> ANDI_Decoder::decode(uint16_t opcodeWor
     }
 
     GetAddressingModeDataParams getAddressingModeParams {
-        .opSize = instructionData.size,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
         .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord) + immediateBytesReaded)
@@ -109,7 +96,7 @@ std::expected<DecodeResult, DecodeError> ANDI_Decoder::decode(uint16_t opcodeWor
         return std::unexpected(addressingModeData.error());
     }
 
-    const auto convertedAddressingModeData = convertAddressingModeData<InstructionData::ANDI_InstructionData::AddressingModeData>(addressingModeData->data);
+    const auto convertedAddressingModeData = convertAddressingModeData<InstructionData::CMPI_InstructionData::AddressingModeData>(addressingModeData->data);
     if(!convertedAddressingModeData) {
         return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
     }
@@ -121,7 +108,6 @@ std::expected<DecodeResult, DecodeError> ANDI_Decoder::decode(uint16_t opcodeWor
         .instruction = instructionData,
         .instructionSizeBytes = static_cast<uint32_t>(addressingModeData.value().bytesReaded + immediateBytesReaded + sizeof(opcodeWord))
     };
-
 }
 
 

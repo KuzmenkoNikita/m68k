@@ -43,7 +43,7 @@ std::expected<DecodeResult, DecodeError> CLR_Decoder::decode(uint16_t opcodeWord
         .opSize = OperationSize::WORD,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord))
     };
 
     const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);

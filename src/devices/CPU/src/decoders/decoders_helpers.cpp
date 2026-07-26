@@ -108,12 +108,12 @@ namespace {
             return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
         }
 
-        const auto readResult = m68k::busHelper::read<int16_t>(bus, params.instructionStartAddr + 2);
+        const auto readResult = m68k::busHelper::read<int16_t>(bus, params.addressingModeDataStartAddr);
         if(!readResult) {
             return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
         }
 
-        return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = readResult->data}, .bytesReaded=2};
+        return AddressingModeDataResult{.data=AddressWithDisplacementModeData{.addressRegNum = params.registerValue, .displacement = readResult->data}, .bytesReaded = 2};
     }
 
     std::expected<AddressingModeDataResult, DecodeError> getAddressWithIndexData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
@@ -122,7 +122,7 @@ namespace {
             return std::unexpected(DecodeError::INVALID_REGISTER_VALUE);
         }
 
-        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.addressingModeDataStartAddr);
         if(!readResult) {
             return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
         }
@@ -137,7 +137,7 @@ namespace {
 
     std::expected<AddressingModeDataResult, DecodeError> getPcWithDisplacementData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
     {
-        const auto readResult = m68k::busHelper::read<int16_t>(bus, params.instructionStartAddr + 2);
+        const auto readResult = m68k::busHelper::read<int16_t>(bus, params.addressingModeDataStartAddr);
         if(!readResult) {
             return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
         }
@@ -147,7 +147,7 @@ namespace {
 
     std::expected<AddressingModeDataResult, DecodeError> getPcWithIndexData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
     {
-        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.addressingModeDataStartAddr);
         if(!readResult) {
             return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
         }
@@ -162,7 +162,7 @@ namespace {
 
     std::expected<AddressingModeDataResult, DecodeError> getAbsoluteShortData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
     {
-        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+        const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.addressingModeDataStartAddr);
         if(!readResult) {
             return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
         }
@@ -172,7 +172,7 @@ namespace {
 
     std::expected<AddressingModeDataResult, DecodeError> getAbsoluteLongData(const DataExchange::MemoryInterface& bus, const GetAddressingModeDataParams& params)
     {
-        const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.instructionStartAddr + 2);
+        const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.addressingModeDataStartAddr);
         if(!readResult) {
             return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
         }
@@ -188,7 +188,7 @@ namespace {
 
             case OperationSize::BYTE: {
 
-                const auto readResult = m68k::busHelper::read<uint8_t>(bus, params.instructionStartAddr + 2);
+                const auto readResult = m68k::busHelper::read<uint8_t>(bus, params.addressingModeDataStartAddr);
                 if(!readResult) {
                     return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
                 }
@@ -200,7 +200,7 @@ namespace {
 
             case OperationSize::WORD: {
 
-                const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.instructionStartAddr + 2);
+                const auto readResult = m68k::busHelper::read<uint16_t>(bus, params.addressingModeDataStartAddr);
                 if(!readResult) {
                     return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
                 }
@@ -211,7 +211,7 @@ namespace {
 
             case OperationSize::LONG: {
 
-                const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.instructionStartAddr + 2);
+                const auto readResult = m68k::busHelper::read<uint32_t>(bus, params.addressingModeDataStartAddr);
                 if(!readResult) {
                     return std::unexpected(DecodeError::MEMORY_READ_FAILURE);
                 }

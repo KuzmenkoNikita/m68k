@@ -32,34 +32,7 @@ std::expected<DecodeResult, DecodeError> ADDI_Decoder::decode(uint16_t opcodeWor
         default: return std::unexpected(DecodeError::INVALID_INSTRUCTION_SIZE);
     }
 
-    const uint8_t registerValue = opcodeWord & REGISTER_MASK;
-    const uint8_t modeValue = (opcodeWord & MODE_MASK) >> 3U; //NOLINT
-
-    const auto addressingMode = getAddressingMode(modeValue, registerValue);
-    if(!addressingMode) {
-        return std::unexpected(addressingMode.error());
-    }
-
-    GetAddressingModeDataParams getAddressingModeParams {
-        .opSize = instructionData.size,
-        .addressingMode = addressingMode.value(),
-        .registerValue = registerValue,
-        .instructionStartAddr = instructionStartAddr
-    };
-
-    const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);
-    if(!addressingModeData) {
-        return std::unexpected(addressingModeData.error());
-    }
-
-    const auto convertedAddressingModeData = convertAddressingModeData<InstructionData::ADDI_InstructionData::AddressingModeData>(addressingModeData->data);
-    if(!convertedAddressingModeData) {
-        return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
-    }
-
-    instructionData.addressingModeData = *convertedAddressingModeData;
-
-    const auto immediateValueAddr = instructionStartAddr + addressingModeData->bytesReaded;
+    const auto immediateValueAddr = instructionStartAddr + sizeof(opcodeWord);
     uint32_t immediateBytesReaded = 0;
     switch(instructionData.size) {
 
@@ -103,7 +76,33 @@ std::expected<DecodeResult, DecodeError> ADDI_Decoder::decode(uint16_t opcodeWor
             return std::unexpected(DecodeError::INVALID_INSTRUCTION);
         }
     }
-    
+
+    const uint8_t registerValue = opcodeWord & REGISTER_MASK;
+    const uint8_t modeValue = (opcodeWord & MODE_MASK) >> 3U; //NOLINT
+
+    const auto addressingMode = getAddressingMode(modeValue, registerValue);
+    if(!addressingMode) {
+        return std::unexpected(addressingMode.error());
+    }
+
+    GetAddressingModeDataParams getAddressingModeParams {
+        .opSize = instructionData.size,
+        .addressingMode = addressingMode.value(),
+        .registerValue = registerValue,
+        .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord) + immediateBytesReaded)
+    };
+
+    const auto addressingModeData = getAddressingModeData(*bus_, getAddressingModeParams);
+    if(!addressingModeData) {
+        return std::unexpected(addressingModeData.error());
+    }
+
+    const auto convertedAddressingModeData = convertAddressingModeData<InstructionData::ADDI_InstructionData::AddressingModeData>(addressingModeData->data);
+    if(!convertedAddressingModeData) {
+        return std::unexpected(DecodeError::INVALID_ADDRESSING_MODE);
+    }
+
+    instructionData.addressingModeData = *convertedAddressingModeData;
 
     return DecodeResult {
         .instruction = instructionData,

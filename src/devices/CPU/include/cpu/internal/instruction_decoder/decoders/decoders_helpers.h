@@ -58,7 +58,7 @@ struct GetAddressingModeDataParams {
     OperationSize opSize;
     AddressingMode addressingMode;
     uint8_t registerValue;
-    uint32_t instructionStartAddr;
+    uint32_t addressingModeDataStartAddr;
 };
 
 std::expected<AddressingMode, DecodeError> getAddressingMode(uint8_t modeValue,  uint8_t registerValue);
