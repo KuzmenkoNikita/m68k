@@ -19,7 +19,7 @@ EXG_Decoder::EXG_Decoder(std::shared_ptr<DataExchange::MemoryInterface> bus) : b
 
 }
 
-std::expected<DecodeResult, DecodeError> EXG_Decoder::decode(uint16_t opcodeWord, uint32_t instructionStartAddr) const
+std::expected<DecodeResult, DecodeError> EXG_Decoder::decode(uint16_t opcodeWord, uint32_t /*instructionStartAddr*/) const
 {
     InstructionData::EXG_InstructionData instructionData{};
 
