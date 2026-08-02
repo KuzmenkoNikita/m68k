@@ -7,14 +7,15 @@ namespace m68k::InstructionData {
 
 struct MOVE_from_SR_InstructionData {
 
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  adressingModeData;
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
 };
 
 
