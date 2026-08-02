@@ -9,13 +9,15 @@ struct LEA_InstructionData {
 
     uint8_t addrRegNumber;
 
-    std::variant<AddressModeData,
+    using AddressingModeData = std::variant<AddressModeData,
                 AddressWithDisplacementModeData,
                 AddressWithIndexModeData,
                 AbsoluteShortModeData,
                 AbsoluteLongModeData,
                 ProgramCounterWithDisplacementModeData,
-                ProgramCounterWithIndexModeData>  addressingModeData;
+                ProgramCounterWithIndexModeData>;
+                
+    AddressingModeData addressingModeData;
 
 };
 

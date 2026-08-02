@@ -102,7 +102,6 @@ std::expected<DecodeResult, DecodeError> CMPI_Decoder::decode(uint16_t opcodeWor
     }
 
     instructionData.addressingModeData = *convertedAddressingModeData;
-    
 
     return DecodeResult {
         .instruction = instructionData,
