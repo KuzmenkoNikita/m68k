@@ -8,29 +8,31 @@ namespace m68k::InstructionData {
 
 struct MOVE_InstructionData {
 
+    using DstAddressingModeData = std::variant<DataRegisterModeData,
+                                                AddressModeData,
+                                                AddressWithPostincrementModeData,
+                                                AddressWithPredecrementModeData,
+                                                AddressWithDisplacementModeData,
+                                                AddressWithIndexModeData,
+                                                AbsoluteShortModeData,
+                                                AbsoluteLongModeData>;
+
+    using SrcAddressingModeData = std::variant<DataRegisterModeData,
+                                                AddressRegisterModeData,
+                                                AddressModeData,
+                                                AddressWithPostincrementModeData,
+                                                AddressWithPredecrementModeData,
+                                                AddressWithDisplacementModeData,
+                                                AddressWithIndexModeData,
+                                                AbsoluteShortModeData,
+                                                AbsoluteLongModeData,
+                                                ImmediateModeData,
+                                                ProgramCounterWithDisplacementModeData,
+                                                ProgramCounterWithIndexModeData>;
+
     OperationSize size;
-
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  destinationAddressingModeData;
-
-    std::variant<DataRegisterModeData,
-                AddressRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData,
-                ImmediateModeData,
-                ProgramCounterWithDisplacementModeData,
-                ProgramCounterWithIndexModeData>  sourceAddressingModeData;
+    SrcAddressingModeData sourceAddressingModeData;
+    DstAddressingModeData destinationAddressingModeData;
 
 };
 
