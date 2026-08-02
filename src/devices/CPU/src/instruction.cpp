@@ -310,12 +310,34 @@ Instruction::Instruction(const InstructionData::LINK_InstructionData& data) :
 
 }
 
-Instruction::Instruction(const InstructionData::LSd_InstructionData& data) :
-    type_(InstructionType::LSd)
+Instruction::Instruction(const InstructionData::LSL_Memory_InstructionData& data) :
+    type_(InstructionType::LSL_MEMORY)
     , data_(data)
 {
 
 }
+
+Instruction::Instruction(const InstructionData::LSL_Register_InstructionData& data) :
+    type_(InstructionType::LSL_REG)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::LSR_Memory_InstructionData& data) :
+    type_(InstructionType::LSL_MEMORY)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::LSR_Register_InstructionData& data) :
+    type_(InstructionType::LSL_REG)
+    , data_(data)
+{
+
+}
+
 
 Instruction::Instruction(const InstructionData::MOVE_from_SR_InstructionData& data) :
     type_(InstructionType::MOVE_from_SR)

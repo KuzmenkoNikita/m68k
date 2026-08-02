@@ -43,7 +43,10 @@
 #include <cpu/internal/instructions/data/JSR_instruction_data.h>
 #include <cpu/internal/instructions/data/LEA_instruction_data.h>
 #include <cpu/internal/instructions/data/LINK_instruction_data.h>
-#include <cpu/internal/instructions/data/LSd_instruction_data.h>
+#include <cpu/internal/instructions/data/LSL_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/LSL_register_instruction_data.h>
+#include <cpu/internal/instructions/data/LSR_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/LSR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/MOVEA_instruction_data.h>
 #include <cpu/internal/instructions/data/MOVEM_instruction_data.h>
 #include <cpu/internal/instructions/data/MOVEP_instruction_data.h>
@@ -159,7 +162,10 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             ASL_Register_InstructionData,
                                             ASR_Memory_InstructionData,
                                             ASR_Register_InstructionData,
-                                            LSd_InstructionData,
+                                            LSL_Memory_InstructionData,
+                                            LSL_Register_InstructionData,
+                                            LSR_Memory_InstructionData,
+                                            LSR_Register_InstructionData,
                                             ROXd_InstructionData,
                                             ROd_InstructionData>;
 

@@ -66,7 +66,10 @@ public:
     Instruction(const InstructionData::JSR_InstructionData& data);
     Instruction(const InstructionData::LEA_InstructionData& data);
     Instruction(const InstructionData::LINK_InstructionData& data);
-    Instruction(const InstructionData::LSd_InstructionData& data);
+    Instruction(const InstructionData::LSL_Memory_InstructionData& data);
+    Instruction(const InstructionData::LSL_Register_InstructionData& data);
+    Instruction(const InstructionData::LSR_Memory_InstructionData& data);
+    Instruction(const InstructionData::LSR_Register_InstructionData& data);
     Instruction(const InstructionData::MOVE_from_SR_InstructionData& data);
     Instruction(const InstructionData::MOVE_InstructionData& data);
     Instruction(const InstructionData::MOVE_to_CCR_InstructionData& data);

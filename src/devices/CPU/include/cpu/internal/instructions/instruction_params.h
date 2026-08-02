@@ -145,7 +145,10 @@ enum class InstructionType : uint8_t {
     ASL_REG,
     ASR_MEMORY,
     ASR_REG,
-    LSd,
+    LSL_MEMORY,
+    LSL_REG,
+    LSR_MEMORY,
+    LSR_REG,
     ROXd,
     ROd,
     INSTRUCTIONS_COUNT
