@@ -7,11 +7,12 @@ namespace m68k::InstructionData {
 
 struct JSR_InstructionData {
 
-    std::variant<AddressModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
+    using AddressingModeData = std::variant<AddressModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
 
 };
 
