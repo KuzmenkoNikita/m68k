@@ -8,22 +8,21 @@ namespace m68k::InstructionData {
 
 struct MOVEA_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData,
+                                            ProgramCounterWithDisplacementModeData,
+                                            ProgramCounterWithIndexModeData,
+                                            ImmediateModeData>;
+    AddressingModeData addressingModeData;
     OperationSize size;
-
     uint8_t addrRegNumber;
-
-    std::variant<DataRegisterModeData,
-                AddressRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData,
-                ProgramCounterWithDisplacementModeData,
-                ProgramCounterWithIndexModeData,
-                ImmediateModeData>  addressingModeData;
 
 };
 

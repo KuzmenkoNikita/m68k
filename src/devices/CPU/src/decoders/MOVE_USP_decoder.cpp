@@ -18,7 +18,7 @@ MOVE_USP_Decoder::MOVE_USP_Decoder(std::shared_ptr<DataExchange::MemoryInterface
 
 }
 
-std::expected<DecodeResult, DecodeError> MOVE_USP_Decoder::decode(uint16_t opcodeWord, uint32_t instructionStartAddr) const
+std::expected<DecodeResult, DecodeError> MOVE_USP_Decoder::decode(uint16_t opcodeWord, uint32_t /*instructionStartAddr*/) const
 {
     InstructionData::MOVE_USP_InstructionData instructionData{};
 
