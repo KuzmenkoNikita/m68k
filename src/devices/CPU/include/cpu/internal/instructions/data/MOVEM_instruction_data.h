@@ -13,58 +13,19 @@ struct MOVEM_InstructionData {
         MEM_TO_REG
     };
 
-    struct PredecrementModeRegMask {
-        bool A7 : 1;
-        bool A6 : 1;
-        bool A5 : 1;
-        bool A4 : 1;
-        bool A3 : 1;
-        bool A2 : 1;
-        bool A1 : 1;
-        bool A0 : 1;
-        bool D7 : 1;
-        bool D6 : 1;
-        bool D5 : 1;
-        bool D4 : 1;
-        bool D3 : 1;
-        bool D2 : 1;
-        bool D1 : 1;
-        bool D0 : 1;
-    };
-
-    struct ControlAndPostincrementModeRegMask {
-        bool D0 : 1;
-        bool D1 : 1;
-        bool D2 : 1;
-        bool D3 : 1;
-        bool D4 : 1;
-        bool D5 : 1;
-        bool D6 : 1;
-        bool D7 : 1;
-        bool A0 : 1;
-        bool A1 : 1;
-        bool A2 : 1;
-        bool A3 : 1;
-        bool A4 : 1;
-        bool A5 : 1;
-        bool A6 : 1;
-        bool A7 : 1;
-    };
-
+    using AddressingModeData = std::variant<AddressRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+                                            
+    AddressingModeData addressingModeData;
     Direction direction;
     OperationSize size;
-
-    std::variant<AddressRegisterModeData,
-            AddressModeData,
-            AddressWithPostincrementModeData,
-            AddressWithPredecrementModeData,
-            AddressWithDisplacementModeData,
-            AddressWithIndexModeData,
-            AbsoluteShortModeData,
-            AbsoluteLongModeData>  addressingModeData;
-
-    std::variant<PredecrementModeRegMask, 
-                ControlAndPostincrementModeRegMask> registerListMask;
+    uint16_t registerMask;
 };
 
 
