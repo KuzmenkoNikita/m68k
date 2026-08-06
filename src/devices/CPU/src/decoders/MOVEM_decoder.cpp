@@ -63,6 +63,10 @@ std::expected<DecodeResult, DecodeError> MOVEM_Decoder::decode(uint16_t opcodeWo
 
     instructionData.addressingModeData = *convertedAddressingModeData;
 
+    return DecodeResult {
+        .instruction = instructionData,
+        .instructionSizeBytes = static_cast<uint32_t>(addressingModeData->bytesReaded + sizeof(opcodeWord) + 2)
+    };
 }
 
 } // namespace m68k::decoders_
