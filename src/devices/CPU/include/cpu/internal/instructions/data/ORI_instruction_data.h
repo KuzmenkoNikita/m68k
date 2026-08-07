@@ -7,22 +7,18 @@ namespace m68k::InstructionData {
 
 struct ORI_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+
+    std::variant<uint8_t, uint16_t, uint32_t> immediateData;
     OperationSize size;
-
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
-
-    union {
-        uint8_t byteData;
-        uint16_t wordData;
-        uint32_t longData;
-    } immediateFiles;
+    AddressingModeData addressingModeData;
     
 };    
 
