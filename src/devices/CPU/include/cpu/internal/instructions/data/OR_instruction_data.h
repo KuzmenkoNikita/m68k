@@ -8,21 +8,21 @@ namespace m68k::InstructionData {
 
 struct OR_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData,
+                                            ImmediateModeData,
+                                            ProgramCounterWithDisplacementModeData,
+                                            ProgramCounterWithIndexModeData>;
+    AddressingModeData addressingModeData;
     DestinationOperandType destOperandType;
     OperationSize size;
     uint8_t dataRegisterNumber;
-
-    std::variant<DataRegisterModeData,
-            AddressModeData,
-            AddressWithPostincrementModeData,
-            AddressWithPredecrementModeData,
-            AddressWithDisplacementModeData,
-            AddressWithIndexModeData,
-            AbsoluteShortModeData,
-            AbsoluteLongModeData,
-            ImmediateModeData,
-            ProgramCounterWithDisplacementModeData,
-            ProgramCounterWithIndexModeData> addressingModeData;
 };
 
 
