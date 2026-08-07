@@ -104,7 +104,7 @@ std::expected<DecodeResult, DecodeError> EORI_Decoder::decode(uint16_t opcodeWor
 
     return DecodeResult {
         .instruction = instructionData,
-        .instructionSizeBytes = static_cast<uint32_t>(addressingModeData.value().bytesReaded + sizeof(opcodeWord))
+        .instructionSizeBytes = static_cast<uint32_t>(addressingModeData.value().bytesReaded + immediateBytesReaded + sizeof(opcodeWord))
     };
 
 }
