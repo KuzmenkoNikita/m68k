@@ -7,19 +7,19 @@ namespace m68k::InstructionData {
 
 struct MULU_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData,
+                                            ImmediateModeData,
+                                            ProgramCounterWithDisplacementModeData,
+                                            ProgramCounterWithIndexModeData>;
+    AddressingModeData sourceOperand;
     uint8_t destinationDataRegister;
-
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData,
-                ImmediateModeData,
-                ProgramCounterWithDisplacementModeData,
-                ProgramCounterWithIndexModeData>  sourceOperand;
 };
 
 
