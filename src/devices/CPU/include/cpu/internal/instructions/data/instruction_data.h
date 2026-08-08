@@ -67,7 +67,10 @@
 #include <cpu/internal/instructions/data/ORI_to_SR_instruction_data.h>
 #include <cpu/internal/instructions/data/OR_instruction_data.h>
 #include <cpu/internal/instructions/data/PEA_instruction_data.h>
-#include <cpu/internal/instructions/data/ROXd_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXL_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXL_register_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXR_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/ROL_memory_instruction_data.h>
 #include <cpu/internal/instructions/data/ROL_register_instruction_data.h>
 #include <cpu/internal/instructions/data/ROR_memory_instruction_data.h>
@@ -169,7 +172,10 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             LSL_Register_InstructionData,
                                             LSR_Memory_InstructionData,
                                             LSR_Register_InstructionData,
-                                            ROXd_InstructionData,
+                                            ROXL_Register_InstructionData,
+                                            ROXL_Memory_InstructionData,
+                                            ROXR_Register_InstructionData,
+                                            ROXR_Memory_InstructionData,
                                             ROL_Memory_InstructionData,
                                             ROL_Register_InstructionData,
                                             ROR_Memory_InstructionData,

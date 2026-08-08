@@ -94,7 +94,10 @@ public:
     Instruction(const InstructionData::ROL_Register_InstructionData& data);
     Instruction(const InstructionData::ROR_Memory_InstructionData& data);
     Instruction(const InstructionData::ROR_Register_InstructionData& data);
-    Instruction(const InstructionData::ROXd_InstructionData& data);
+    Instruction(const InstructionData::ROXL_Register_InstructionData& data);
+    Instruction(const InstructionData::ROXL_Memory_InstructionData& data);
+    Instruction(const InstructionData::ROXR_Register_InstructionData& data);
+    Instruction(const InstructionData::ROXR_Memory_InstructionData& data);
     Instruction(const InstructionData::SBCD_InstructionData& data);
     Instruction(const InstructionData::Scc_InstructionData& data);
     Instruction(const InstructionData::STOP_InstructionData& data);

@@ -479,15 +479,57 @@ Instruction::Instruction(const InstructionData::PEA_InstructionData& data) :
 
 }
 
-Instruction::Instruction(const InstructionData::ROd_InstructionData& data) :
-    type_(InstructionType::ROd)
+Instruction::Instruction(const InstructionData::ROL_Register_InstructionData& data) :
+    type_(InstructionType::ROL_REG)
     , data_(data)
 {
 
 }
 
-Instruction::Instruction(const InstructionData::ROXd_InstructionData& data) :
-    type_(InstructionType::ROXd)
+Instruction::Instruction(const InstructionData::ROL_Memory_InstructionData& data) :
+    type_(InstructionType::ROL_MEMORY)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ROR_Register_InstructionData& data) :
+    type_(InstructionType::ROR_REG)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ROR_Memory_InstructionData& data) :
+    type_(InstructionType::ROR_MEMORY)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ROXL_Register_InstructionData& data) :
+    type_(InstructionType::ROXL_REG)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ROXL_Memory_InstructionData& data) :
+    type_(InstructionType::ROXL_MEMORY)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ROXR_Register_InstructionData& data) :
+    type_(InstructionType::ROXR_REG)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::ROXR_Memory_InstructionData& data) :
+    type_(InstructionType::ROXR_MEMORY)
     , data_(data)
 {
 
