@@ -13,7 +13,7 @@ struct ROXL_Register_InstructionData {
     uint8_t countOrRegister;
     OperationSize size;
     uint8_t dataRegisterToBeRotated;
-    RotateMode shiftMode;
+    RotateMode rotateMode;
 
 }; 
 
