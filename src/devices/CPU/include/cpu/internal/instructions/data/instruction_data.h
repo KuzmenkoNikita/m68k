@@ -68,7 +68,10 @@
 #include <cpu/internal/instructions/data/OR_instruction_data.h>
 #include <cpu/internal/instructions/data/PEA_instruction_data.h>
 #include <cpu/internal/instructions/data/ROXd_instruction_data.h>
-#include <cpu/internal/instructions/data/ROd_instruction_data.h>
+#include <cpu/internal/instructions/data/ROL_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ROL_register_instruction_data.h>
+#include <cpu/internal/instructions/data/ROR_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ROR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/SBCD_instruction_data.h>
 #include <cpu/internal/instructions/data/STOP_instruction_data.h>
 #include <cpu/internal/instructions/data/SUBA_instruction_data.h>
@@ -167,7 +170,10 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             LSR_Memory_InstructionData,
                                             LSR_Register_InstructionData,
                                             ROXd_InstructionData,
-                                            ROd_InstructionData>;
+                                            ROL_Memory_InstructionData,
+                                            ROL_Register_InstructionData,
+                                            ROR_Memory_InstructionData,
+                                            ROR_Register_InstructionData>;
 
 } //namespace m68k::InstructionData
 

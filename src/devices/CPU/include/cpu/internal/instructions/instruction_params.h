@@ -150,7 +150,10 @@ enum class InstructionType : uint8_t {
     LSR_MEMORY,
     LSR_REG,
     ROXd,
-    ROd,
+    ROL_MEMORY,
+    ROL_REG,
+    ROR_MEMORY,
+    ROR_REG,
     INSTRUCTIONS_COUNT
 };
 

@@ -90,7 +90,10 @@ public:
     Instruction(const InstructionData::ORI_to_CCR_InstructionData& data);
     Instruction(const InstructionData::ORI_to_SR_InstructionData& data);
     Instruction(const InstructionData::PEA_InstructionData& data);
-    Instruction(const InstructionData::ROd_InstructionData& data);
+    Instruction(const InstructionData::ROL_Memory_InstructionData& data);
+    Instruction(const InstructionData::ROL_Register_InstructionData& data);
+    Instruction(const InstructionData::ROR_Memory_InstructionData& data);
+    Instruction(const InstructionData::ROR_Register_InstructionData& data);
     Instruction(const InstructionData::ROXd_InstructionData& data);
     Instruction(const InstructionData::SBCD_InstructionData& data);
     Instruction(const InstructionData::Scc_InstructionData& data);

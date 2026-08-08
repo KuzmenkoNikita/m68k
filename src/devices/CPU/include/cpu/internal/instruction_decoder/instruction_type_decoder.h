@@ -113,10 +113,10 @@ private:
         OpcodeIndo{.mask=OPCODE_MASK_ROXL_REG, .pattern=OPCODE_PATTERN_ROXL_REG, .type=InstructionType::ROXd},
         OpcodeIndo{.mask=OPCODE_MASK_ROXR_MEMORY, .pattern=OPCODE_PATTERN_ROXR_MEMORY, .type=InstructionType::ROXd},
         OpcodeIndo{.mask=OPCODE_MASK_ROXR_REG, .pattern=OPCODE_PATTERN_ROXR_REG, .type=InstructionType::ROXd},
-        OpcodeIndo{.mask=OPCODE_MASK_ROL_MEMORY, .pattern=OPCODE_PATTERN_ROL_MEMORY, .type=InstructionType::ROd},
-        OpcodeIndo{.mask=OPCODE_MASK_ROL_REG, .pattern=OPCODE_PATTERN_ROL_REG, .type=InstructionType::ROd},
-        OpcodeIndo{.mask=OPCODE_MASK_ROR_MEMORY, .pattern=OPCODE_PATTERN_ROR_MEMORY, .type=InstructionType::ROd},
-        OpcodeIndo{.mask=OPCODE_MASK_ROR_REG, .pattern=OPCODE_PATTERN_ROR_REG, .type=InstructionType::ROd},
+        OpcodeIndo{.mask=OPCODE_MASK_ROL_MEMORY, .pattern=OPCODE_PATTERN_ROL_MEMORY, .type=InstructionType::ROL_MEMORY},
+        OpcodeIndo{.mask=OPCODE_MASK_ROL_REG, .pattern=OPCODE_PATTERN_ROL_REG, .type=InstructionType::ROL_REG},
+        OpcodeIndo{.mask=OPCODE_MASK_ROR_MEMORY, .pattern=OPCODE_PATTERN_ROR_MEMORY, .type=InstructionType::ROR_MEMORY},
+        OpcodeIndo{.mask=OPCODE_MASK_ROR_REG, .pattern=OPCODE_PATTERN_ROR_REG, .type=InstructionType::ROR_REG},
     };
 };
 
