@@ -6,13 +6,14 @@ namespace m68k::InstructionData {
 
 struct PEA_InstructionData {
 
-    std::variant<AddressModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData,
-                ProgramCounterWithDisplacementModeData,
-                ProgramCounterWithIndexModeData>  addressingModeData;
+    using AddressingModeData = std::variant<AddressModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData,
+                                            ProgramCounterWithDisplacementModeData,
+                                            ProgramCounterWithIndexModeData>;
+    AddressingModeData addressingModeData;
 
 };    
 
