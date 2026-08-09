@@ -8,20 +8,18 @@ namespace m68k::InstructionData {
 
 struct SUBQ_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
     OperationSize size;
-
     uint8_t data;
-
-    std::variant<DataRegisterModeData,
-                AddressRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
-
 };
 
 
