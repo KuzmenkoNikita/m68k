@@ -1,7 +1,7 @@
+#include <bus_helper/bus_helper.h>
 #include <expected>
 #include <instruction_decoder/decoders/Bcc_decoder.h>
 #include <instruction_decoder/decoders/decoders_helpers.h>
-#include <bus_helper/bus_helper.h>
 
 namespace m68k::decoders_ {
 

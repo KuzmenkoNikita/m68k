@@ -8,16 +8,16 @@ namespace m68k::InstructionData {
 
 struct Scc_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+    AddressingModeData addressingModeData;
     Condition condition;
-
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
 };
 
 
