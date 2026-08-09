@@ -8,6 +8,7 @@ struct SUBX_InstructionData {
     OperandAddressingMode operandAddressingMode;
     uint8_t destinationRegister;
     uint8_t sourceRegister;
+    OperationSize size;
 
 }; 
 
