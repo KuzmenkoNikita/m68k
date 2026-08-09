@@ -101,7 +101,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataRegister)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::DATA_REGISTER,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     auto result = m68k::decoders_::getAddressingModeData(strictBus, params);
@@ -165,7 +165,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataAddressRegister)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ADDRESS_REGISTER,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     auto result = m68k::decoders_::getAddressingModeData(strictBus, params);
@@ -231,7 +231,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataAddressMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ADDRESS,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     auto result = m68k::decoders_::getAddressingModeData(strictBus, params);
@@ -297,7 +297,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataAddressWithPostincrementMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ADDRESS_WITH_POSTINCREMENT,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     auto result = m68k::decoders_::getAddressingModeData(strictBus, params);
@@ -362,7 +362,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataAddressWithPredecrementMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ADDRESS_WITH_PREDECREMENT,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     auto result = m68k::decoders_::getAddressingModeData(strictBus, params);
@@ -428,7 +428,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataAddressWithDisplacementMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ADDRESS_WITH_DISPLACEMENT,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     auto result = m68k::decoders_::getAddressingModeData(bus, params);
@@ -473,7 +473,7 @@ TEST(DecodersHelpersTests, getAddressingModeDataAddressWithIndexMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ADDRESS_WITH_INDEX,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     EXPECT_CALL(bus, read16(0x10000002)).WillOnce(testing::Return(std::unexpected(DataExchange::MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS)));
@@ -542,7 +542,7 @@ TEST(DecodersHelpersTests, getAddressingModeProgramCounterWithDisplacementMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::PC_WITH_DISPLACEMENT,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     EXPECT_CALL(bus, read16(0x10000002)).WillOnce(testing::Return(std::unexpected(DataExchange::MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS)));
@@ -591,7 +591,7 @@ TEST(DecodersHelpersTests, getAddressingModeProgramCounterWithIndexMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::PC_WITH_INDEX,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     EXPECT_CALL(bus, read16(0x10000002)).WillOnce(testing::Return(std::unexpected(DataExchange::MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS)));
@@ -660,7 +660,7 @@ TEST(DecodersHelpersTests, getAddressingModeAbsoluteShortMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ABSOLUTE_SHORT,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     EXPECT_CALL(bus, read16(0x10000002)).WillOnce(testing::Return(std::unexpected(DataExchange::MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS)));
@@ -709,7 +709,7 @@ TEST(DecodersHelpersTests, getAddressingModeAbsoluteLongMode)
         .opSize = m68k::OperationSize::WORD,
         .addressingMode = m68k::AddressingMode::ABSOLUTE_LONG,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     EXPECT_CALL(bus, read16(0x10000002)).WillOnce(testing::Return(std::unexpected(DataExchange::MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS)));
@@ -763,7 +763,7 @@ TEST(DecodersHelpersTests, getAddressingModeImmediateMode)
         .opSize = m68k::OperationSize::BYTE,
         .addressingMode = m68k::AddressingMode::IMMEDIATE,
         .registerValue = 2,
-        .instructionStartAddr = 0x10000000
+        .addressingModeDataStartAddr = 0x10000000
     };
 
     EXPECT_CALL(bus, read16(0x10000002)).WillOnce(testing::Return(std::unexpected(DataExchange::MemoryAccessError::READ_FROM_UNMAPPED_ADDRESS)));

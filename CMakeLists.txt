@@ -38,13 +38,4 @@ if(BUILD_TESTS)
     FetchContent_MakeAvailable(googletest)
 endif()
 
-
-if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
-    configure_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json"
-        "${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json"
-        COPYONLY
-    )
-endif()
-
 target_link_libraries(${PROJECT_NAME} PRIVATE M68kCPUDevice M68kBus ROMFileDevice)

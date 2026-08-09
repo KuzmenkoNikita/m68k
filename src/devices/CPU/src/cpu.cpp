@@ -38,8 +38,6 @@ void CPU::initExecutors()
     for(auto i = 0; i < static_cast<size_t>(InstructionType::INSTRUCTIONS_COUNT); ++i) {
         executors_.emplace_back(std::nullopt);
     }
-
-    executors_[static_cast<size_t>(InstructionType::TST)]= std::make_unique<executors_::TST_executor>(bus_, std::make_shared<m68k_::Registers>(regs_));
 }
 
 
