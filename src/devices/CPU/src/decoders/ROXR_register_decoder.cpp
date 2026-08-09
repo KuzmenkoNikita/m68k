@@ -19,7 +19,7 @@ ROXR_Register_Decoder::ROXR_Register_Decoder(std::shared_ptr<DataExchange::Memor
 
 }
 
-std::expected<DecodeResult, DecodeError> ROXR_Register_Decoder::decode(uint16_t opcodeWord, uint32_t instructionStartAddr) const
+std::expected<DecodeResult, DecodeError> ROXR_Register_Decoder::decode(uint16_t opcodeWord, uint32_t /*instructionStartAddr*/) const
 {
     InstructionData::ROXR_Register_InstructionData instructionData{};
 
