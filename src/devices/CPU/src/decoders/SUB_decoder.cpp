@@ -79,6 +79,7 @@ std::expected<DecodeResult, DecodeError> SUB_Decoder::decode(uint16_t opcodeWord
     }
 
     GetAddressingModeDataParams getAddressingModeParams {
+        .opSize = instructionData.size,
         .addressingMode = addressingMode.value(),
         .registerValue = registerValue,
         .addressingModeDataStartAddr = static_cast<uint32_t>(instructionStartAddr + sizeof(opcodeWord))

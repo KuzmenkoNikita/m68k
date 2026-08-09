@@ -8,17 +8,19 @@ namespace m68k::InstructionData {
 
 struct SUBI_InstructionData {
 
+    using AddressingModeData = std::variant<DataRegisterModeData,
+                                            AddressModeData,
+                                            AddressWithPostincrementModeData,
+                                            AddressWithPredecrementModeData,
+                                            AddressWithDisplacementModeData,
+                                            AddressWithIndexModeData,
+                                            AbsoluteShortModeData,
+                                            AbsoluteLongModeData>;
+                                            
+    
+    AddressingModeData addressingModeData;
     OperationSize size;
-
-    std::variant<DataRegisterModeData,
-                AddressModeData,
-                AddressWithPostincrementModeData,
-                AddressWithPredecrementModeData,
-                AddressWithDisplacementModeData,
-                AddressWithIndexModeData,
-                AbsoluteShortModeData,
-                AbsoluteLongModeData>  addressingModeData;
-
+    std::variant<uint8_t, uint16_t, uint32_t> immediateData;
 };
 
 
