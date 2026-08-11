@@ -23,7 +23,6 @@ set(DECODERS_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BCHG_register_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BCLR_immediate_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BCLR_register_decoder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BCLR_register_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BRA_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BSET_immediate_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/BSET_register_decoder.cpp
@@ -94,6 +93,15 @@ set(DECODERS_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/TRAP_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/TST_decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/UNLK_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/NOP_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/ILLEGAL_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/TRAPV_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/RTR_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/RESET_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/RTE_decoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders/RTS_decoder.cpp
+
+
 )
 
 set(SOURCES 

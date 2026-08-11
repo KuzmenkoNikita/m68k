@@ -39,6 +39,7 @@
 #include <cpu/internal/instructions/data/EOR_instruction_data.h>
 #include <cpu/internal/instructions/data/EXG_instruction_data.h>
 #include <cpu/internal/instructions/data/EXT_instruction_data.h>
+#include <cpu/internal/instructions/data/ILLEGAL_instruction_data.h>
 #include <cpu/internal/instructions/data/JMP_instruction_data.h>
 #include <cpu/internal/instructions/data/JSR_instruction_data.h>
 #include <cpu/internal/instructions/data/LEA_instruction_data.h>
@@ -67,14 +68,14 @@
 #include <cpu/internal/instructions/data/ORI_to_SR_instruction_data.h>
 #include <cpu/internal/instructions/data/OR_instruction_data.h>
 #include <cpu/internal/instructions/data/PEA_instruction_data.h>
-#include <cpu/internal/instructions/data/ROXL_memory_instruction_data.h>
-#include <cpu/internal/instructions/data/ROXL_register_instruction_data.h>
-#include <cpu/internal/instructions/data/ROXR_memory_instruction_data.h>
-#include <cpu/internal/instructions/data/ROXR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/ROL_memory_instruction_data.h>
 #include <cpu/internal/instructions/data/ROL_register_instruction_data.h>
 #include <cpu/internal/instructions/data/ROR_memory_instruction_data.h>
 #include <cpu/internal/instructions/data/ROR_register_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXL_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXL_register_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXR_memory_instruction_data.h>
+#include <cpu/internal/instructions/data/ROXR_register_instruction_data.h>
 #include <cpu/internal/instructions/data/SBCD_instruction_data.h>
 #include <cpu/internal/instructions/data/STOP_instruction_data.h>
 #include <cpu/internal/instructions/data/SUBA_instruction_data.h>
@@ -88,6 +89,12 @@
 #include <cpu/internal/instructions/data/TRAP_instruction_data.h>
 #include <cpu/internal/instructions/data/TST_instruction_data.h>
 #include <cpu/internal/instructions/data/UNLK_instruction_data.h>
+#include <cpu/internal/instructions/data/RESET_instruction_data.h>
+#include <cpu/internal/instructions/data/NOP_instruction_data.h>
+#include <cpu/internal/instructions/data/RTE_instruction_data.h>
+#include <cpu/internal/instructions/data/RTS_instruction_data.h>
+#include <cpu/internal/instructions/data/TRAPV_instruction_data.h>
+#include <cpu/internal/instructions/data/RTR_instruction_data.h>
 
 namespace m68k::InstructionData {
 
@@ -179,7 +186,14 @@ using InstructionDataVariant = std::variant<ORI_to_CCR_InstructionData,
                                             ROL_Memory_InstructionData,
                                             ROL_Register_InstructionData,
                                             ROR_Memory_InstructionData,
-                                            ROR_Register_InstructionData>;
+                                            ROR_Register_InstructionData,
+                                            ILLEGAL_InstructionData,
+                                            RESET_InstructionData,
+                                            NOP_InstructionData,
+                                            RTE_InstructionData,
+                                            RTS_InstructionData,
+                                            TRAPV_InstructionData,
+                                            RTR_InstructionData>;
 
 } //namespace m68k::InstructionData
 

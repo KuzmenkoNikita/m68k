@@ -111,6 +111,15 @@ public:
     Instruction(const InstructionData::TRAP_InstructionData& data);
     Instruction(const InstructionData::TST_InstructionData& data);
     Instruction(const InstructionData::UNLK_InstructionData& data);
+    Instruction(const InstructionData::ILLEGAL_InstructionData& data);
+    Instruction(const InstructionData::RESET_InstructionData& data);
+    Instruction(const InstructionData::NOP_InstructionData& data);
+    Instruction(const InstructionData::RTE_InstructionData& data);
+    Instruction(const InstructionData::RTS_InstructionData& data);
+    Instruction(const InstructionData::TRAPV_InstructionData& data);
+    Instruction(const InstructionData::RTR_InstructionData& data);
+    
+    
     //NOLINTEND
 
 private:

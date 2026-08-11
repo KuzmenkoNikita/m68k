@@ -25,8 +25,7 @@ private:
     std::shared_ptr<DataExchange::MemoryInterface> bus_;
     std::unique_ptr<InstructionTypeDecoder> typeDecoder_;
 
-    /// Временный optional, когда все декодеры будут реализованы, он будет убран
-    std::vector<std::optional<std::unique_ptr<decoders_::IDecoder>>> decoders_;
+    std::vector<std::unique_ptr<decoders_::IDecoder>> decoders_;
 };
 
 } // namespace m68k

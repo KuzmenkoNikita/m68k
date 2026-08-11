@@ -619,7 +619,61 @@ Instruction::Instruction(const InstructionData::TST_InstructionData& data) :
 
 }
 
+Instruction::Instruction(const InstructionData::ILLEGAL_InstructionData& data) : 
+    type_(InstructionType::ILLEGAL)
+    , data_(data)
+{
 
+}
+
+Instruction::Instruction(const InstructionData::RESET_InstructionData& data) : 
+    type_(InstructionType::RESET)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::NOP_InstructionData& data) : 
+    type_(InstructionType::NOP)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::RTE_InstructionData& data) : 
+    type_(InstructionType::RTE)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::RTS_InstructionData& data) : 
+    type_(InstructionType::RTS)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::TRAPV_InstructionData& data) : 
+    type_(InstructionType::TRAPV)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::RTR_InstructionData& data) : 
+    type_(InstructionType::RTR)
+    , data_(data)
+{
+
+}
+
+Instruction::Instruction(const InstructionData::UNLK_InstructionData& data) : 
+    type_(InstructionType::UNLK)
+    , data_(data)
+{
+
+}
 
 
 
